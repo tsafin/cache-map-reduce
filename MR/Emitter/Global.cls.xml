@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.GlobalEmitter">
+<Class name="MR.Emitter.Global">
 <Super>%RegisteredObject</Super>
 <TimeCreated>63660,85075.197628</TimeCreated>
 
@@ -17,19 +17,26 @@ global name serving as data channel</Description>
     $$$ThrowOnError($length(initval)>0)
     set ..Name = initval ; FIXME - valid global name
     quit $$$OK
+
 ]]></Implementation>
 </Method>
 
 <Method name="Emit">
+<Description>
+emit $listbuild(key,value)</Description>
 <FormalSpec>ListBuild:%String</FormalSpec>
 <Implementation><![CDATA[
     $$$ThrowOnError($listvalid(ListBuild))
     #dim name As %String = ..Name
     set @name@($seq(@name)) = ListBuild
+
+
 ]]></Implementation>
 </Method>
 
 <Method name="Fetch">
+<Description>
+returns emitted $lb(key,value)</Description>
 <ReturnType>%String</ReturnType>
 <Implementation><![CDATA[
     #dim name As %String = ..Name
@@ -42,6 +49,7 @@ global name serving as data channel</Description>
         kill @name
         quit ""
     }
+
 ]]></Implementation>
 </Method>
 </Class>

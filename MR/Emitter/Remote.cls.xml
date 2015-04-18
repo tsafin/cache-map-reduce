@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Emitter.Remote">
+<Super>MR.Emitter.Global</Super>
+<TimeCreated>63661,6482.477308</TimeCreated>
+
+<Property name="RemoteNS">
+<Type>%String</Type>
+</Property>
+
+<Property name="RemoteGlobal">
+<Type>%String</Type>
+</Property>
+
+<Method name="%OnNew">
+<Description>
+given [remote system] namesace name NS and appropriate global name Global
+construct ^|NS|Global extended reference for convenient use</Description>
+<FormalSpec>NS:%String,Global:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    $$$ThrowOnError($length(Global)>0)
+    $$$ThrowOnError($length(NS)>0)
+    set ..Name = $name(^|NS|Global) ; FIXME - valid global name
+    quit $$$OK
+
+]]></Implementation>
+</Method>
+</Class>
+</Export>
