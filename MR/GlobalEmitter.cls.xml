@@ -12,9 +12,11 @@ global name serving as data channel</Description>
 
 <Method name="%OnNew">
 <FormalSpec>initval:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     $$$ThrowOnError($length(initval)>0)
-    set Name = initval ; FIXME - valid global name
+    set ..Name = initval ; FIXME - valid global name
+    quit $$$OK
 ]]></Implementation>
 </Method>
 
@@ -22,7 +24,8 @@ global name serving as data channel</Description>
 <FormalSpec>ListBuild:%String</FormalSpec>
 <Implementation><![CDATA[
     $$$ThrowOnError($listvalid(ListBuild))
-    set @..Name($Seq(@..Name)) = ListBuild
+    #dim name As %String = ..Name
+    set @name@($seq(@name)) = ListBuild
 ]]></Implementation>
 </Method>
 </Class>
