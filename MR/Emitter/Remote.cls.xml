@@ -20,10 +20,9 @@ construct ^|NS|Global extended reference for convenient use</Description>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     $$$ThrowOnError($length(Global)>0)
-    $$$ThrowOnError($length(NS)>0)
-    set ..Name = $name(^|NS|Global) ; FIXME - valid global name
+    ;$$$ThrowOnError($length(NS)>0)
+    set ..Name = $name(@("^|"_NS_"|"_$piece(Global,"^",*)))
     quit $$$OK
-
 ]]></Implementation>
 </Method>
 </Class>
