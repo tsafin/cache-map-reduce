@@ -28,5 +28,21 @@ global name serving as data channel</Description>
     set @name@($seq(@name)) = ListBuild
 ]]></Implementation>
 </Method>
+
+<Method name="Fetch">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+    #dim name As %String = ..Name
+    #dim value As %String
+    #dim index As %String = $order(@name@(""),1,value)
+    if index'="" {
+        kill @name@(index)
+        quit value
+    } else {
+        kill @name
+        quit ""
+    }
+]]></Implementation>
+</Method>
 </Class>
 </Export>
