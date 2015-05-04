@@ -4,7 +4,7 @@
 <Super>%RegisteredObject</Super>
 <TimeCreated>63660,85075.197628</TimeCreated>
 
-<Property name="Name">
+<Property name="GlobalName">
 <Description>
 global name serving as data channel</Description>
 <Type>%String</Type>
@@ -15,9 +15,8 @@ global name serving as data channel</Description>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     $$$ThrowOnError($length(initval)>0)
-    set ..Name = initval ; FIXME - valid global name
+    set ..GlobalName = initval ; FIXME - valid global name
     quit $$$OK
-
 ]]></Implementation>
 </Method>
 
@@ -27,10 +26,8 @@ emit $listbuild(key,value)</Description>
 <FormalSpec>ListBuild:%String</FormalSpec>
 <Implementation><![CDATA[
     $$$ThrowOnError($listvalid(ListBuild))
-    #dim name As %String = ..Name
+    #dim name As %String = ..GlobalName
     set @name@($seq(@name)) = ListBuild
-
-
 ]]></Implementation>
 </Method>
 
@@ -39,7 +36,7 @@ emit $listbuild(key,value)</Description>
 returns emitted $lb(key,value)</Description>
 <ReturnType>%String</ReturnType>
 <Implementation><![CDATA[
-    #dim name As %String = ..Name
+    #dim name As %String = ..GlobalName
     #dim value As %String
     #dim index As %String = $order(@name@(""),1,value)
     if index'="" {
@@ -49,7 +46,6 @@ returns emitted $lb(key,value)</Description>
         kill @name
         quit ""
     }
-
 ]]></Implementation>
 </Method>
 </Class>
