@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Base.Reducer">
+<Description>
+Base class for MapReduce Mapper. 
+We have to provide Map function at least</Description>
+<Abstract>1</Abstract>
+<TimeCreated>63676,54260.669728</TimeCreated>
+
+<Method name="Start">
+</Method>
+
+<Method name="Reduce">
+<FormalSpec>ReduceInput:MR.Base.ReduceInput</FormalSpec>
+</Method>
+
+<Method name="Flush">
+</Method>
+</Class>
+</Export>
