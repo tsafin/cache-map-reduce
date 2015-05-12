@@ -6,14 +6,14 @@
 
 <Method name="Emit">
 <Description>
-emit $listbuild(key,value)</Description>
+emit $listbuild(key,value(s))</Description>
 <Abstract>1</Abstract>
 <FormalSpec>ListBuild:%String</FormalSpec>
 </Method>
 
 <Method name="Fetch">
 <Description>
-returns emitted $lb(key,value)</Description>
+returns emitted $lb(key,value(s))</Description>
 <Abstract>1</Abstract>
 <ReturnType>%String</ReturnType>
 </Method>
