@@ -8,13 +8,16 @@ We have to provide Map function at least</Description>
 <TimeCreated>63676,54193.773961</TimeCreated>
 
 <Method name="Start">
+<Abstract>1</Abstract>
 </Method>
 
 <Method name="Map">
+<Abstract>1</Abstract>
 <FormalSpec>MapInput:MR.Base.MapInput</FormalSpec>
 </Method>
 
 <Method name="Flush">
+<Abstract>1</Abstract>
 </Method>
 </Class>
 </Export>

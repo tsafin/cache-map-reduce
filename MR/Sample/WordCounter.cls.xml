@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.WordCounter">
+<Description>
+</Description>
+<Super>MR.Base.Mapper,MR.Emitter.Sorted</Super>
+<TimeCreated>63676,62627.897049</TimeCreated>
+
+<Method name="Map">
+<Description>
+read strings from MR.Base.MapInput and count words</Description>
+<FormalSpec>MapInput:MR.Base.MapInput</FormalSpec>
+<Implementation><![CDATA[
+    #dim line As %String = MapInput.GetNext()
+    #dim pattern As %Regex.Matcher = ##class(%Regex.Matcher).%New("[^ ]+")
+    set pattern.Text = line
+    while pattern.Locate() {
+        #dim word As %String = pattern.Group
+        do ..Emit($lb(word))
+    }
+]]></Implementation>
+</Method>
+</Class>
+</Export>

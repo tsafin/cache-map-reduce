@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.WordCountMapReduce">
+<Super>%RegisteredObject</Super>
+<TimeCreated>63676,63054.129416</TimeCreated>
+</Class>
+</Export>

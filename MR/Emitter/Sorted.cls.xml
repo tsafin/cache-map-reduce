@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Emitter.Sorted">
+<Description>
+emitter which sorts by keys all emitted (key, value(s))</Description>
+<Super>MR.Emitter.Ordered</Super>
+<TimeCreated>63677,7918.466708</TimeCreated>
+
+<Property name="AutoIncrement">
+<Type>%Boolean</Type>
+<InitialExpression>1</InitialExpression>
+</Property>
+
+<Method name="Emit">
+<Description>
+emit $listbuild(key,value)</Description>
+<FormalSpec>ListBuild:%String</FormalSpec>
+<Implementation><![CDATA[
+    $$$ThrowOnError($listvalid(ListBuild))
+    #dim name As %String = ..GlobalName
+    #dim key As %String
+    if $listlength(ListBuild)=1 {
+        // special case - only key name given, no value
+        set key = $li(ListBuild)
+        if ..AutoIncrement {
+            #dim dummyX As %Integer = $seq(@name@(key))
+        } else {
+            set @name@(key) = 1
+        }
+    } else {
+        #dim value As %String = $li(ListBuild,*)
+        set ListBuild = $li(ListBuild,1,*-1)
+        #dim globalName = name_"("_$lts(ListBuild)_")"
+        if ..AutoIncrement {
+            #dim dummyY As %Integer = $increment(@globalName,value)
+        } else {
+            set @globalName = value
+        }
+    }
+]]></Implementation>
+</Method>
+
+<Method name="Fetch">
+<Description>
+returns emitted $lb(key,value)</Description>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+    #dim name As %String = ..GlobalName
+    #dim value As %String
+    // FIXME - traverse using $QUERY instead of $ORDER
+#if 0
+    #dim key As %String = $order(@name@(""),1,value)
+    if index'="" {
+        kill @name@(index)
+        quit $lb(index,value)
+    } else {
+        kill @name
+        quit ""
+    }
+#else
+    #dim ref As %String = $query(@name,1,value)
+    if ref'="" {
+        zkill @ref
+        #dim i As %Integer
+        #dim refLen As %Integer = $qlength(ref)
+        #dim listbuild = ""
+        for i=1:1:refLen {
+            set $li(listbuild,i)=$qs(ref,i)
+        }
+        set $li(listbuild,*+1)=value
+        quit listbuild
+    }
+    quit ""
+#endif
+]]></Implementation>
+</Method>
+
+<Method name="Debug">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+    set e=..%New("^||emitterS")
+    do e.Emit($lb(1,2,3))
+    do e.Emit($lb(1,2,5))
+    do e.Emit($lb(1,2,4))
+]]></Implementation>
+</Method>
+</Class>
+</Export>

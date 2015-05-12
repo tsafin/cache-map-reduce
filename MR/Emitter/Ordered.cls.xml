@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Emitter.Global">
-<Super>%RegisteredObject</Super>
+<Class name="MR.Emitter.Ordered">
+<Description>
+emitter whch maintains the order of (key,value(s))</Description>
+<Super>%RegisteredObject,MR.Base.Emitter</Super>
 <TimeCreated>63660,85075.197628</TimeCreated>
 
 <Property name="GlobalName">
@@ -9,6 +11,12 @@
 global name serving as data channel</Description>
 <Type>%String</Type>
 </Property>
+
+<Parameter name="AUTOCLEANUP">
+<Description>
+TODO - automatically cleanup global name upon exiting</Description>
+<Default>1</Default>
+</Parameter>
 
 <Method name="%OnNew">
 <FormalSpec>initval:%String</FormalSpec>

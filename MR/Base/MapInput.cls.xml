@@ -3,5 +3,9 @@
 <Class name="MR.Base.MapInput">
 <Abstract>1</Abstract>
 <TimeCreated>63676,54217.943936</TimeCreated>
+
+<Method name="GetNext">
+<ReturnType>%String</ReturnType>
+</Method>
 </Class>
 </Export>
