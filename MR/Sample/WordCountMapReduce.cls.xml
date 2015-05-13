@@ -3,5 +3,17 @@
 <Class name="MR.Sample.WordCountMapReduce">
 <Super>%RegisteredObject</Super>
 <TimeCreated>63676,63054.129416</TimeCreated>
+
+<Method name="MapReduce">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+    #dim input As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New("C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\MR\Sample\FileMapInput.cls.xml")
+    #dim map As MR.Sample.WordCounter = ##class(MR.Sample.WordCounter).%New($name(^mtemp.MR($J)))
+    while 'input.IsAtEnd() {
+        do map.Map(input)
+    }
+    do map.Dump()
+]]></Implementation>
+</Method>
 </Class>
 </Export>

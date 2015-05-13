@@ -7,5 +7,9 @@
 <Method name="GetNext">
 <ReturnType>%String</ReturnType>
 </Method>
+
+<Method name="IsAtEnd">
+<ReturnType>%Boolean</ReturnType>
+</Method>
 </Class>
 </Export>

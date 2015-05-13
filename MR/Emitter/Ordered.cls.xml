@@ -56,5 +56,12 @@ returns emitted $lb(key,value)</Description>
     }
 ]]></Implementation>
 </Method>
+
+<Method name="Dump">
+<Implementation><![CDATA[
+    #dim name As %String = ..GlobalName
+    zwrite @name
+]]></Implementation>
+</Method>
 </Class>
 </Export>
