@@ -8,8 +8,8 @@
 
 <Method name="Map">
 <Description>
-read strings from MR.Base.MapInput and count words</Description>
-<FormalSpec>MapInput:MR.Base.MapInput</FormalSpec>
+read strings from MR.Base.Iterator and count words</Description>
+<FormalSpec>MapInput:MR.Base.Iterator</FormalSpec>
 <Implementation><![CDATA[
     #dim line As %String = MapInput.GetNext()
     #dim pattern As %Regex.Matcher = ##class(%Regex.Matcher).%New("[\w]+")

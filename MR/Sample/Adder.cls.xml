@@ -3,5 +3,9 @@
 <Class name="MR.Sample.Adder">
 <Super>MR.Base.Reducer</Super>
 <TimeCreated>63676,62655.307223</TimeCreated>
+
+<Method name="Reduce">
+<FormalSpec>ReduceInput:MR.Base.ReduceInput</FormalSpec>
+</Method>
 </Class>
 </Export>
