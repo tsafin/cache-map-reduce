@@ -21,9 +21,9 @@ global array. </Description>
         #dim fileName As %String = $piece($Text(DATA+i),";",3)
         quit:fileName=""
 
-        #dim infraPipe As MR.Sample.GlobalPipeInput = ##class(MR.Sample.GlobalPipeInput).%New($name(^mtemp.Map($J)))
-        #dim inputFile As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New(fileName)
-        #dim mapper As MR.Sample.WordCounter = ##class(MR.Sample.WordCounter).%New()
+        #dim infraPipe As MR.Sample.GlobalPipe      = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+        #dim inputFile As MR.Sample.FileMapInput    = ##class(MR.Sample.FileMapInput).%New(fileName)
+        #dim mapper As MR.Sample.WordCounter        = ##class(MR.Sample.WordCounter).%New()
 
         while 'inputFile.IsAtEnd() {
             do mapper.Map(inputFile, infraPipe)

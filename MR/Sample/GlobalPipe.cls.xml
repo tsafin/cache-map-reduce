@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.GlobalPipeInput">
+<Class name="MR.Sample.GlobalPipe">
 <Description>
 Plays several roles:
 - as the input (sorted) global iterator
 - and as the output emitter
 actually this all is implemented by MR.Emitter.Sorted, but rename it for clarity</Description>
 <Super>%RegisteredObject,MR.Emitter.Sorted</Super>
-<TimeCreated>63686,67949.754958</TimeCreated>
+<TimeCreated>63687,7588.634371</TimeCreated>
 </Class>
 </Export>
