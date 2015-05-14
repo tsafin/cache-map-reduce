@@ -15,7 +15,7 @@ global array. </Description>
 <ProcedureBlock>0</ProcedureBlock>
 <Implementation><![CDATA[
     new
-    kill ^mtemp.Map,^mtemp.Reduce
+    //kill ^mtemp.Map,^mtemp.Reduce
 
     for i=1:1 {
         #dim fileName As %String = $piece($Text(DATA+i),";",3)

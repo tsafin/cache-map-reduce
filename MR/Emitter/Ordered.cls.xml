@@ -22,6 +22,23 @@ global name serving as data channel</Description>
 ]]></Implementation>
 </Method>
 
+<Parameter name="AUTOCLEANUP">
+<Default>1</Default>
+</Parameter>
+
+<Method name="%OnClose">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    if ..#AUTOCLEANUP {
+        #dim name As %String = ..GlobalName
+        if $data(@name) {
+            kill @name
+        }
+    }
+    Quit $$$OK
+]]></Implementation>
+</Method>
+
 <Method name="IsAtEnd">
 <ReturnType>%Boolean</ReturnType>
 <Implementation><![CDATA[
