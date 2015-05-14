@@ -3,21 +3,21 @@
 <Class name="MR.Sample.WordCounter">
 <Description>
 </Description>
-<Super>MR.Base.Mapper,MR.Emitter.Sorted</Super>
+<Super>%RegisteredObject,MR.Base.Mapper</Super>
 <TimeCreated>63676,62627.897049</TimeCreated>
 
 <Method name="Map">
 <Description>
 read strings from MR.Base.Iterator and count words</Description>
-<FormalSpec>MapInput:MR.Base.Iterator</FormalSpec>
+<FormalSpec>MapInput:MR.Base.Iterator,MapOutput:MR.Base.Emitter</FormalSpec>
 <Implementation><![CDATA[
     #dim line As %String = MapInput.GetNext()
     //#dim pattern As %Regex.Matcher = ##class(%Regex.Matcher).%New("[\w]+")
-    #dim pattern As %Regex.Matcher = ##class(%Regex.Matcher).%New("[^ ]+")
+    #dim pattern As %Regex.Matcher = ##class(%Regex.Matcher).%New("[^\s]+")
     set pattern.Text = line
     while pattern.Locate() {
         #dim word As %String = pattern.Group
-        do ..Emit($lb(word))
+        do MapOutput.Emit($lb(word))
     }
 ]]></Implementation>
 </Method>

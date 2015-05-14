@@ -21,21 +21,22 @@ global array. </Description>
         #dim fileName As %String = $piece($Text(DATA+i),";",3)
         quit:fileName=""
 
+        #dim infraPipe As MR.Sample.GlobalPipeInput = ##class(MR.Sample.GlobalPipeInput).%New($name(^mtemp.Map($J)))
         #dim inputFile As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New(fileName)
-        #dim intraPipeName As %String = $name(^mtemp.Map($J))
-        #dim mapper As MR.Sample.WordCounter = ##class(MR.Sample.WordCounter).%New(intraPipeName)
+        #dim mapper As MR.Sample.WordCounter = ##class(MR.Sample.WordCounter).%New()
+
         while 'inputFile.IsAtEnd() {
-            do mapper.Map(inputFile)
+            do mapper.Map(inputFile, infraPipe)
         }
-        //do mapper.Dump()
+        //do infraPipe.Dump()
         
-        #dim reduceInput As MR.Sample.GlobalPipeInput = ##class(MR.Sample.GlobalPipeInput).%New(intraPipeName)
-        #dim outPipeName As %String = $name(^mtemp.Reduce($J))
-        #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New(outPipeName)
-        while 'reduceInput.IsAtEnd() {
-            do reducer.Reduce(reduceInput)
+        #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Ordered).%New($name(^mtemp.Reduce($J)))
+        #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
+
+        while 'infraPipe.IsAtEnd() {
+            do reducer.Reduce(infraPipe, outPipe)
         }
-        do reducer.Dump()
+        do outPipe.Dump()
     }
     quit
     
@@ -46,6 +47,7 @@ DATA
     ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol4.txt
     ;;
     ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\single-line.txt
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\multiple-lines.txt
 ]]></Implementation>
 </Method>
 </Class>

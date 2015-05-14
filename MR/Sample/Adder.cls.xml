@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
 <Class name="MR.Sample.Adder">
-<Super>MR.Base.Reducer,MR.Emitter.Ordered</Super>
+<Super>%RegisteredObject,MR.Base.Reducer</Super>
 <TimeCreated>63676,62655.307223</TimeCreated>
 
 <Method name="Reduce">
-<FormalSpec>ReduceInput:MR.Base.Iterator</FormalSpec>
+<FormalSpec>ReduceInput:MR.Base.Iterator,ReduceOutput:MR.Base.Emitter</FormalSpec>
 <Implementation><![CDATA[
     #dim result As %Numeric = 0
     while 'ReduceInput.IsAtEnd() {
@@ -14,7 +14,7 @@
         #dim count As %Integer = +$li(value,2)
         set result = result + count
     }
-    do ..Emit($lb(result))
+    do ReduceOutput.Emit($lb(result))
 ]]></Implementation>
 </Method>
 </Class>

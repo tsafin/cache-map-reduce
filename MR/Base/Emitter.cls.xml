@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
 <Class name="MR.Base.Emitter">
-<Super>%RegisteredObject</Super>
+<Super>MR.Base.Iterator</Super>
 <TimeCreated>63676,65211.615259</TimeCreated>
 
 <Method name="Emit">
@@ -9,13 +9,6 @@
 emit $listbuild(key,value(s))</Description>
 <Abstract>1</Abstract>
 <FormalSpec>ListBuild:%String</FormalSpec>
-</Method>
-
-<Method name="Fetch">
-<Description>
-returns emitted $lb(key,value(s))</Description>
-<Abstract>1</Abstract>
-<ReturnType>%String</ReturnType>
 </Method>
 </Class>
 </Export>

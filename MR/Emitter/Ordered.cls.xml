@@ -12,12 +12,6 @@ global name serving as data channel</Description>
 <Type>%String</Type>
 </Property>
 
-<Parameter name="AUTOCLEANUP">
-<Description>
-TODO - automatically cleanup global name upon exiting</Description>
-<Default>1</Default>
-</Parameter>
-
 <Method name="%OnNew">
 <FormalSpec>initval:%String</FormalSpec>
 <ReturnType>%Status</ReturnType>
@@ -28,7 +22,7 @@ TODO - automatically cleanup global name upon exiting</Description>
 ]]></Implementation>
 </Method>
 
-<Method name="IsEmpty">
+<Method name="IsAtEnd">
 <ReturnType>%Boolean</ReturnType>
 <Implementation><![CDATA[
     #dim name As %String = ..GlobalName
@@ -47,7 +41,7 @@ emit $listbuild(key,value)</Description>
 ]]></Implementation>
 </Method>
 
-<Method name="Fetch">
+<Method name="GetNext">
 <Description>
 returns emitted $lb(key,value)</Description>
 <ReturnType>%String</ReturnType>

@@ -23,7 +23,7 @@ emit $listbuild(key,value)</Description>
         // special case - only key name given, no value
         set key = $li(ListBuild)
         if ..AutoIncrement {
-            #dim dummyX As %Integer = $seq(@name@(key))
+            #dim dummyX As %Integer = $increment(@name@(key)) ; $seq is non-deterministic
         } else {
             set @name@(key) = 1
         }
@@ -40,7 +40,7 @@ emit $listbuild(key,value)</Description>
 ]]></Implementation>
 </Method>
 
-<Method name="Fetch">
+<Method name="GetNext">
 <Description>
 returns emitted $lb(key,value)</Description>
 <ReturnType>%String</ReturnType>
