@@ -30,7 +30,7 @@ global array. </Description>
         }
         //do infraPipe.Dump()
         
-        #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Ordered).%New($name(^mtemp.Reduce($J)))
+        #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
         #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
 
         while 'infraPipe.IsAtEnd() {

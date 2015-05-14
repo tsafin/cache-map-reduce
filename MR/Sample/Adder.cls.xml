@@ -14,7 +14,7 @@
         #dim count As %Integer = +$li(value,2)
         set result = result + count
     }
-    do ReduceOutput.Emit($lb(result))
+    do ReduceOutput.Emit("Count", result)
 ]]></Implementation>
 </Method>
 </Class>

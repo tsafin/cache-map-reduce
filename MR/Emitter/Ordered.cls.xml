@@ -50,11 +50,15 @@ global name serving as data channel</Description>
 <Method name="Emit">
 <Description>
 emit $listbuild(key,value)</Description>
-<FormalSpec>ListBuild:%String</FormalSpec>
+<FormalSpec>EmitList...:%String</FormalSpec>
 <Implementation><![CDATA[
-    $$$ThrowOnError($listvalid(ListBuild))
     #dim name As %String = ..GlobalName
-    set @name@($seq(@name)) = ListBuild
+    #dim list As %String = ""
+
+    for i=1:1:$get(EmitList) {
+        set $li(list,i) = $get(EmitList(i))
+    }
+    set @name@($seq(@name)) = list
 ]]></Implementation>
 </Method>
 

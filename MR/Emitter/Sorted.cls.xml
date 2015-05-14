@@ -14,27 +14,33 @@ Emitter which sorts by keys all emitted pairs or tuples (key, value(s))</Descrip
 <Method name="Emit">
 <Description>
 emit $listbuild(key,value)</Description>
-<FormalSpec>ListBuild:%String</FormalSpec>
+<FormalSpec>EmitList...:%String</FormalSpec>
 <Implementation><![CDATA[
-    $$$ThrowOnError($listvalid(ListBuild))
     #dim name As %String = ..GlobalName
     #dim key As %String
-    if $listlength(ListBuild)=1 {
+    #dim value As %String 
+
+    if $get(EmitList)=1 {
         // special case - only key name given, no value
-        set key = $li(ListBuild)
+        set key = $get(EmitList(1))
+        quit:key=""
         if ..AutoIncrement {
             #dim dummyX As %Integer = $increment(@name@(key)) ; $seq is non-deterministic
         } else {
             set @name@(key) = 1
         }
     } else {
-        #dim value As %String = $li(ListBuild,*)
-        set ListBuild = $li(ListBuild,1,*-1)
-        #dim globalName = name_"("_$lts(ListBuild)_")"
+        set value = $get(EmitList(EmitList))
+        set EmitList = EmitList - 1
+        for i=1:1:$get(EmitList) {
+            #dim index As %String = $get(EmitList(i))
+            quit:index=""
+            set name = $name(@name@(index))
+        }
         if ..AutoIncrement {
-            #dim dummyY As %Integer = $increment(@globalName,value)
+            #dim dummyY As %Integer = $increment(@name,value)
         } else {
-            set @globalName = value
+            set @name = value
         }
     }
 ]]></Implementation>
@@ -68,12 +74,16 @@ returns emitted $lb(key,value)</Description>
 
 <Method name="Debug">
 <ClassMethod>1</ClassMethod>
+<FormalSpec>Key:%String,Values...:%String</FormalSpec>
 <Implementation><![CDATA[
 #if 1
     set e=..%New("^||emitterS")
-    do e.Emit($lb(1,2,3))
-    do e.Emit($lb(1,2,5))
-    do e.Emit($lb(1,2,4))
+    do e.Emit("Sum",23)
+    do e.Emit("Sum",12)
+    do e.Emit(1,2,3)
+    do e.Emit(1,2,5)
+    do e.Emit(1,2,4)
+    zw Values
 #endif
 ]]></Implementation>
 </Method>

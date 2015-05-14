@@ -17,7 +17,7 @@ read strings from MR.Base.Iterator and count words</Description>
     set pattern.Text = line
     while pattern.Locate() {
         #dim word As %String = pattern.Group
-        do MapOutput.Emit($lb(word))
+        do MapOutput.Emit(word)
     }
 ]]></Implementation>
 </Method>

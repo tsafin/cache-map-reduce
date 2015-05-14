@@ -8,7 +8,7 @@
 <Description>
 emit $listbuild(key,value(s))</Description>
 <Abstract>1</Abstract>
-<FormalSpec>ListBuild:%String</FormalSpec>
+<FormalSpec>EmitList...:%String</FormalSpec>
 </Method>
 </Class>
 </Export>
