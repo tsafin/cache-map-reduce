@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Base.Iterator">
+<Abstract>1</Abstract>
+<TimeCreated>63676,54217.943936</TimeCreated>
+
+<Method name="GetNext">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+]]></Implementation>
+</Method>
+
+<Method name="IsAtEnd">
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+]]></Implementation>
+</Method>
+</Class>
+</Export>

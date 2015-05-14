@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Project name="cache-map-reduce" LastModified="2015-05-15 00:18:43.566674" Target="##class(MR.Sample.WordCountMapReduce).MapReduce()" TargetType="0">
+  <Items>
+    <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Base.Iterator" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Base.Mapper" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Base.Reducer" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Emitter.Ordered" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Emitter.Sorted" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.Adder" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.FileMapInput" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.GlobalPipeInput" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.WordCountMapReduce" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.WordCounter" type="CLS"></ProjectItem>
+  </Items>
+  <BreakPoints>
+    <BreakPoint Routine="MR.Emitter.Sorted.CLS" Offset="Debug+1"></BreakPoint>
+    <BreakPoint Routine="MR.Sample.Adder.CLS" Offset="Reduce+2"></BreakPoint>
+    <BreakPoint Routine="MR.Sample.FileMapInput.CLS" Offset="Debug+2"></BreakPoint>
+    <BreakPoint Routine="MR.Sample.WordCounter.CLS" Offset="Map+4"></BreakPoint>
+  </BreakPoints>
+</Project>
+</Export>
