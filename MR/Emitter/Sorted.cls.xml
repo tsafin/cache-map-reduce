@@ -63,9 +63,10 @@ returns emitted $lb(key,value)</Description>
         zkill @ref
         #dim i As %Integer
         #dim refLen As %Integer = $qlength(ref)
+        #dim baseLen As %Integer = $qlength(name)
         #dim listbuild = ""
-        for i=1:1:refLen {
-            set $li(listbuild,i)=$qs(ref,i)
+        for i=baseLen+1:1:refLen {
+            set $li(listbuild,i-baseLen)=$qs(ref,i)
         }
         set $li(listbuild,*+1)=value
         quit listbuild

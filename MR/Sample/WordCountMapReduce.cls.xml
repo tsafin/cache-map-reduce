@@ -25,7 +25,7 @@ global array. </Description>
     #dim outPipeName As %String = $name(^mtemp.Reduce($J))
     #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New(outPipeName)
     while 'reduceInput.IsAtEnd() {
-        do reducer.Map(reduceInput)
+        do reducer.Reduce(reduceInput)
     }
     do reducer.Dump()
 ]]></Implementation>

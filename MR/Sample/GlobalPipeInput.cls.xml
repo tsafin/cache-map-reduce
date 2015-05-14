@@ -1,31 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
 <Class name="MR.Sample.GlobalPipeInput">
-<Super>%RegisteredObject,MR.Base.Iterator</Super>
+<Super>%RegisteredObject,MR.Base.Iterator,MR.Emitter.Sorted</Super>
 <TimeCreated>63686,67949.754958</TimeCreated>
-
-<Property name="GlobalName">
-<Type>%String</Type>
-</Property>
-
-<Method name="%OnNew">
-<FormalSpec>Name:%String</FormalSpec>
-<ReturnType>%Status</ReturnType>
-<Implementation><![CDATA[
-    #dim sc As %Status = 1
-    quit sc
-]]></Implementation>
-</Method>
 
 <Method name="GetNext">
 <ReturnType>%String</ReturnType>
-<Implementation><![CDATA[    quit ""
+<Implementation><![CDATA[    quit ..Fetch()
 ]]></Implementation>
 </Method>
 
 <Method name="IsAtEnd">
 <ReturnType>%Boolean</ReturnType>
-<Implementation><![CDATA[    quit 1
+<Implementation><![CDATA[    quit ..GlobalName="" || ..IsEmpty()
 ]]></Implementation>
 </Method>
 </Class>

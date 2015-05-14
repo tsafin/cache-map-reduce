@@ -9,8 +9,10 @@
 <Implementation><![CDATA[
     #dim result As %Numeric = 0
     while 'ReduceInput.IsAtEnd() {
-        #dim value As %String = ReduceInput.GetNext()
-        set result = result + value
+        #dim value As %String = ReduceInput.GetNext() ; get <key,value> in $listbuild format
+        #dim word As %String = $li(value,1)
+        #dim count As %Integer = +$li(value,2)
+        set result = result + count
     }
     do ..Emit($lb(result))
 ]]></Implementation>
