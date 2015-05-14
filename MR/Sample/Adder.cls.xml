@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
 <Class name="MR.Sample.Adder">
-<Super>MR.Base.Reducer</Super>
+<Super>MR.Base.Reducer,MR.Emitter.Ordered</Super>
 <TimeCreated>63676,62655.307223</TimeCreated>
 
 <Method name="Reduce">
-<FormalSpec>ReduceInput:MR.Base.ReduceInput</FormalSpec>
+<FormalSpec>ReduceInput:MR.Base.Iterator</FormalSpec>
+<Implementation><![CDATA[
+    #dim result As %Numeric = 0
+    while 'ReduceInput.IsAtEnd() {
+        #dim value As %String = ReduceInput.GetNext()
+        set result = result + value
+    }
+    do ..Emit($lb(result))
+]]></Implementation>
 </Method>
 </Class>
 </Export>

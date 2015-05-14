@@ -7,12 +7,21 @@
 <Method name="MapReduce">
 <ClassMethod>1</ClassMethod>
 <Implementation><![CDATA[
-    #dim input As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New("C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\MR\Sample\FileMapInput.cls.xml")
-    #dim map As MR.Sample.WordCounter = ##class(MR.Sample.WordCounter).%New($name(^mtemp.MR($J)))
-    while 'input.IsAtEnd() {
-        do map.Map(input)
+    #dim inputFile As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New("C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\MR\Sample\FileMapInput.cls.xml")
+    #dim intraPipeName As %String = $name(^mtemp.Map($J))
+    #dim mapper As MR.Sample.WordCounter = ##class(MR.Sample.WordCounter).%New(intraPipeName)
+    while 'inputFile.IsAtEnd() {
+        do mapper.Map(inputFile)
     }
-    do map.Dump()
+    do mapper.Dump()
+    
+    #dim reduceInput As MR.Sample.GlobalPipeInput = ##class(MR.Sample.GlobalPipeInput).%New(intraPipeName)
+    #dim outPipeName As %String = $name(^mtemp.Reduce($J))
+    #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New(outPipeName)
+    while 'reduceInput.IsAtEnd() {
+        do reducer.Map(reduceInput)
+    }
+    do reducer.Dump()
 ]]></Implementation>
 </Method>
 </Class>

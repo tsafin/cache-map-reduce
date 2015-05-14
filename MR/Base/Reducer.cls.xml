@@ -13,7 +13,7 @@ We have to provide Map function at least</Description>
 
 <Method name="Reduce">
 <Abstract>1</Abstract>
-<FormalSpec>ReduceInput:MR.Base.ReduceInput</FormalSpec>
+<FormalSpec>ReduceInput:MR.Base.Iterator</FormalSpec>
 </Method>
 
 <Method name="Flush">
