@@ -2,7 +2,7 @@
 <Export generator="Cache" version="25">
 <Class name="MR.Emitter.Ordered">
 <Description>
-emitter whch maintains the order of (key,value(s))</Description>
+Emitter whch maintains the order of (key,value(s))</Description>
 <Super>%RegisteredObject,MR.Base.Emitter</Super>
 <TimeCreated>63660,85075.197628</TimeCreated>
 

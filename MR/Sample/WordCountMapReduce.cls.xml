@@ -12,22 +12,40 @@ global array. </Description>
 
 <Method name="MapReduce">
 <ClassMethod>1</ClassMethod>
+<ProcedureBlock>0</ProcedureBlock>
 <Implementation><![CDATA[
-    #dim inputFile As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New("C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\MR\Sample\FileMapInput.cls.xml")
-    #dim intraPipeName As %String = $name(^mtemp.Map($J))
-    #dim mapper As MR.Sample.WordCounter = ##class(MR.Sample.WordCounter).%New(intraPipeName)
-    while 'inputFile.IsAtEnd() {
-        do mapper.Map(inputFile)
+    new
+    kill ^mtemp.Map,^mtemp.Reduce
+
+    for i=1:1 {
+        #dim fileName As %String = $piece($Text(DATA+i),";",3)
+        quit:fileName=""
+
+        #dim inputFile As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New(fileName)
+        #dim intraPipeName As %String = $name(^mtemp.Map($J))
+        #dim mapper As MR.Sample.WordCounter = ##class(MR.Sample.WordCounter).%New(intraPipeName)
+        while 'inputFile.IsAtEnd() {
+            do mapper.Map(inputFile)
+        }
+        //do mapper.Dump()
+        
+        #dim reduceInput As MR.Sample.GlobalPipeInput = ##class(MR.Sample.GlobalPipeInput).%New(intraPipeName)
+        #dim outPipeName As %String = $name(^mtemp.Reduce($J))
+        #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New(outPipeName)
+        while 'reduceInput.IsAtEnd() {
+            do reducer.Reduce(reduceInput)
+        }
+        do reducer.Dump()
     }
-    do mapper.Dump()
+    quit
     
-    #dim reduceInput As MR.Sample.GlobalPipeInput = ##class(MR.Sample.GlobalPipeInput).%New(intraPipeName)
-    #dim outPipeName As %String = $name(^mtemp.Reduce($J))
-    #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New(outPipeName)
-    while 'reduceInput.IsAtEnd() {
-        do reducer.Reduce(reduceInput)
-    }
-    do reducer.Dump()
+DATA
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol1.txt
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol2.txt
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol3.txt
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol4.txt
+    ;;
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\single-line.txt
 ]]></Implementation>
 </Method>
 </Class>

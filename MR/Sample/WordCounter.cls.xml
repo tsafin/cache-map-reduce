@@ -12,7 +12,8 @@ read strings from MR.Base.Iterator and count words</Description>
 <FormalSpec>MapInput:MR.Base.Iterator</FormalSpec>
 <Implementation><![CDATA[
     #dim line As %String = MapInput.GetNext()
-    #dim pattern As %Regex.Matcher = ##class(%Regex.Matcher).%New("[\w]+")
+    //#dim pattern As %Regex.Matcher = ##class(%Regex.Matcher).%New("[\w]+")
+    #dim pattern As %Regex.Matcher = ##class(%Regex.Matcher).%New("[^ ]+")
     set pattern.Text = line
     while pattern.Locate() {
         #dim word As %String = pattern.Group

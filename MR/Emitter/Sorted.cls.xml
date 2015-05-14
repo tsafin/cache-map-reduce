@@ -2,7 +2,7 @@
 <Export generator="Cache" version="25">
 <Class name="MR.Emitter.Sorted">
 <Description>
-emitter which sorts by keys all emitted (key, value(s))</Description>
+Emitter which sorts by keys all emitted pairs or tuples (key, value(s))</Description>
 <Super>MR.Emitter.Ordered</Super>
 <TimeCreated>63677,7918.466708</TimeCreated>
 
@@ -47,17 +47,6 @@ returns emitted $lb(key,value)</Description>
 <Implementation><![CDATA[
     #dim name As %String = ..GlobalName
     #dim value As %String
-    // FIXME - traverse using $QUERY instead of $ORDER
-#if 0
-    #dim key As %String = $order(@name@(""),1,value)
-    if index'="" {
-        kill @name@(index)
-        quit $lb(index,value)
-    } else {
-        kill @name
-        quit ""
-    }
-#else
     #dim ref As %String = $query(@name,1,value)
     if ref'="" {
         zkill @ref
@@ -69,20 +58,23 @@ returns emitted $lb(key,value)</Description>
             set $li(listbuild,i-baseLen)=$qs(ref,i)
         }
         set $li(listbuild,*+1)=value
+
         quit listbuild
     }
+
     quit ""
-#endif
 ]]></Implementation>
 </Method>
 
 <Method name="Debug">
 <ClassMethod>1</ClassMethod>
 <Implementation><![CDATA[
+#if 1
     set e=..%New("^||emitterS")
     do e.Emit($lb(1,2,3))
     do e.Emit($lb(1,2,5))
     do e.Emit($lb(1,2,4))
+#endif
 ]]></Implementation>
 </Method>
 </Class>
