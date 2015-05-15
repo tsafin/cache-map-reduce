@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.WordCountMapReduce">
+<Class name="MR.Sample.WordCountMapReduceSum">
 <Description>
 Very simple, single-threaded "map-reduce" example.
-Version #0 - not actually trying to summarize word-count for all files
-             but displaying each word-count separately
+Version #1 - trying to summarize word-count for all files to the single count
 BEWARE! 
 There is no intermediate controlling node before reducer, because MR.Emitter.Sorted 
 is automagically reduce and sort key values set to the single node because of using hierarchical 
 global array. </Description>
 <Super>%RegisteredObject</Super>
-<TimeCreated>63676,63054.129416</TimeCreated>
+<TimeCreated>63687,11293.95174</TimeCreated>
 
 <Method name="Map">
 <ClassMethod>1</ClassMethod>
@@ -33,6 +32,8 @@ global array. </Description>
     //kill ^mtemp.Map,^mtemp.Reduce
 
     #dim infraPipe As MR.Sample.GlobalPipe = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+    #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+    #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
 
     for i=1:1 {
         #dim fileName As %String = $piece($Text(DATA+i),";",3)
@@ -41,14 +42,12 @@ global array. </Description>
         do ..Map(fileName, infraPipe)
         //do infraPipe.Dump()
 
-        #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
-        #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
-
-        while 'infraPipe.IsAtEnd() {
-            do reducer.Reduce(infraPipe, outPipe)
-        }
-        do outPipe.Dump()
     }
+    while 'infraPipe.IsAtEnd() {
+        do reducer.Reduce(infraPipe, outPipe)
+    }
+    do outPipe.Dump()
+
     quit
     
 DATA
