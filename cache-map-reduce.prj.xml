@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2015-05-15 03:14:21.45634" Target="##class(MR.Emitter.Sorted).Debug()" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2015-05-15 03:32:37.860539" Target="##class(MR.Emitter.Sorted).Debug()" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Iterator" type="CLS"></ProjectItem>
@@ -14,6 +14,7 @@
     <ProjectItem name="MR.Sample.WordCounter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.GlobalPipe" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCountMapReduceSum" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.WordCountMapReduceWorkers" type="CLS"></ProjectItem>
   </Items>
   <BreakPoints>
     <BreakPoint Routine="MR.Sample.WordCounter.CLS" Offset="Map+4"></BreakPoint>

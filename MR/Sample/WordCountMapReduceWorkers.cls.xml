@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.WordCountMapReduceSum">
+<Class name="MR.Sample.WordCountMapReduceWorkers">
 <Description>
-Very simple, single-threaded "map-reduce" example.
-Version #1 - trying to summarize word-count for all files to the single count
+Version #2 More advanced, multiple-workers "map-reduce" example.
 BEWARE! 
 There is no intermediate controlling node before reducer, because MR.Emitter.Sorted 
 is automagically reduce and sort key values set to the single node because of using hierarchical 
 global array. </Description>
 <Super>%RegisteredObject</Super>
-<TimeCreated>63687,11293.95174</TimeCreated>
+<TimeCreated>63687,11970.26054</TimeCreated>
 
 <Method name="Map">
 <ClassMethod>1</ClassMethod>
@@ -34,14 +33,25 @@ global array. </Description>
     #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
     #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
 
+    #dim sc As %Status = $$$OK
+    // do $system.WorkMgr.StopWorkers()
+    // Set ^||%ISC.WorkQueueMgr("ForceJobs")=job
+    #dim queue As %SYSTEM.WorkMgr = $system.WorkMgr.Initialize("/multicompile=1", .sc) 
+    quit:$$$ISERR(sc)
+
     for i=1:1 {
         #dim fileName As %String = $piece($Text(DATA+i),";",3)
         quit:fileName=""
 
-        do ..Map(fileName, infraPipe)
+        //do ..Map(fileName, infraPipe)
+        set sc = queue.Queue("##class(MR.Sample.WordCountMapReduceWorkers).Map", fileName, infraPipe) ; FIXME - doesn't work yet. oops
+        quit:$$$ISERR(sc)
+
         //do infraPipe.Dump()
 
     }
+    set sc = queue.WaitForComplete()  quit:$$$ISERR(sc)
+
     while 'infraPipe.IsAtEnd() {
         do reducer.Reduce(infraPipe, outPipe)
     }
