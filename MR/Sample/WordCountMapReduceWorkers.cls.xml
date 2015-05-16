@@ -12,14 +12,17 @@ global array. </Description>
 
 <Method name="Map">
 <ClassMethod>1</ClassMethod>
-<FormalSpec>FileName:%String,infraPipe:MR.Sample.GlobalPipe</FormalSpec>
+<FormalSpec>FileName:%String,InfraPipeName:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
-    #dim inputFile As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New(FileName)
-    #dim mapper As MR.Sample.WordCounter     = ##class(MR.Sample.WordCounter).%New()
+    #dim inputFile As MR.Sample.FileMapInput    = ##class(MR.Sample.FileMapInput).%New(FileName)
+    #dim mapper As MR.Sample.WordCounter        = ##class(MR.Sample.WordCounter).%New()
+    #dim infraPipe As MR.Sample.GlobalPipeClone = ##class(MR.Sample.GlobalPipeClone).%New(InfraPipeName)
 
     while 'inputFile.IsAtEnd() {
         do mapper.Map(inputFile, infraPipe)
     }
+    quit $$$OK
 ]]></Implementation>
 </Method>
 
@@ -44,7 +47,7 @@ global array. </Description>
         quit:fileName=""
 
         //do ..Map(fileName, infraPipe)
-        set sc = queue.Queue("##class(MR.Sample.WordCountMapReduceWorkers).Map", fileName, infraPipe) ; FIXME - doesn't work yet. oops
+        set sc = queue.Queue("##class(MR.Sample.WordCountMapReduceWorkers).Map", fileName, infraPipe.GlobalName) ; FIXME - doesn't work yet. oops
         quit:$$$ISERR(sc)
 
         //do infraPipe.Dump()
