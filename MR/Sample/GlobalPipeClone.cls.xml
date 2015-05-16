@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.GlobalPipeClone">
+<Super>MR.Sample.GlobalPipe</Super>
+<TimeCreated>63688,12667.8338</TimeCreated>
+
+<Parameter name="AUTOCLEANUP">
+<Description>
+override class parameter</Description>
+<Default>0</Default>
+</Parameter>
+</Class>
+</Export>
