@@ -47,7 +47,7 @@ global array. </Description>
         quit:fileName=""
 
         //do ..Map(fileName, infraPipe)
-        set sc = queue.Queue("##class(MR.Sample.WordCountMapReduceWorkers).Map", fileName, infraPipe.GlobalName) ; FIXME - doesn't work yet. oops
+        set sc = queue.Queue("##class(MR.Sample.WordCountMapReduceWorkers).Map", fileName, infraPipe.GlobalName)
         quit:$$$ISERR(sc)
 
         //do infraPipe.Dump()
