@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.TestRemoteConnection">
+<IncludeCode>%apiCBIND</IncludeCode>
+<Super>%RegisteredObject</Super>
+<TimeCreated>63699,1987.06331</TimeCreated>
+
+<Method name="TestMethod">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Arg:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[    quit $zu(5)_"^"_$i(^MR.Sample.TestRemoteConnectionD)
+]]></Implementation>
+</Method>
+
+<Method name="TestLocal">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+    #dim connection As %Net.RemoteConnection = ##class(%Net.RemoteConnection).%New()
+    #dim status As %Status = connection.Connect("127.0.0.1",$zu(5),^%SYS("SSPort"),"_SYSTEM","SYS")
+    set status = connection.ResetArguments()
+    set status = connection.AddArgument("Hello", 0 /*by ref*/, $$$cbindStringId)
+    #dim rVal As %String = ""
+    set status = connection.InvokeClassMethod(..%ClassName(1), "TestMethod", .rVal, 1 /*has return*/, $$$cbindStringId)
+    zw rVal
+    do connection.Disconnect()
+]]></Implementation>
+</Method>
+
+<Method name="TestRemote">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+    #dim connection As %Net.RemoteConnection = ##class(%Net.RemoteConnection).%New()
+    #dim status As %Status = connection.Connect("127.0.0.1","RMAPREDUCE",1972,"_SYSTEM","SYS")
+    set status = connection.ResetArguments()
+    set status = connection.AddArgument("Hello", 0 /*by ref*/, $$$cbindStringId)
+    #dim rVal As %String = ""
+    set status = connection.InvokeClassMethod(..%ClassName(1), "TestMethod", .rVal, 1 /*has return*/, $$$cbindStringId)
+    zw rVal
+    do connection.Disconnect()
+]]></Implementation>
+</Method>
+</Class>
+</Export>
