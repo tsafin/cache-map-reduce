@@ -1,22 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Routine name="net.remoteconnection" type="MAC" languagemode="0"><![CDATA[
-    set rc=##class(%Net.RemoteConnection).%New()
-    set Status=rc.Connect("127.0.0.1","SAMPLES",1972,"_system","SYS") break:'Status
-    set Status=rc.OpenObjectId("Sample.Person",1,.per) break:'Status
-    set Status=rc.GetProperty(per,"Name",.value) break:'Status
-    write value
-    Set Status=rc.ResetArguments() break:'Status
-    Set Status=rc.SetProperty(per,"Name","Jones,Tom "_$r(100),4) break:'Status  // 4 = $$$cbindStringId
-    Set Status=rc.ResetArguments() break:'Status
-    Set Status=rc.GetProperty(per,"Name",.value) break:'Status
-    write value
-    Set Status=rc.ResetArguments() break:'Status
-    Set Status=rc.AddArgument(150,0) break:'Status  // Add 150+10
-    Set Status=rc.AddArgument(10,0) break:'Status  // Add 150+10
-    Set Status=rc.InvokeInstanceMethod(per, "Addition", .AdditionValue, 1) break:'Status
-    Write AdditionValue
-    Set Status=rc.ResetArguments() break:'Status
-    Set Status=rc.InstantiateQuery(.rs,"Sample.Person","ByName")
-]]></Routine>
 </Export>
