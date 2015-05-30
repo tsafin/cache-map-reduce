@@ -15,8 +15,8 @@ global array. </Description>
 <ClassMethod>1</ClassMethod>
 <FormalSpec>FileName:%String,infraPipe:MR.Sample.GlobalPipe</FormalSpec>
 <Implementation><![CDATA[
-    #dim inputFile As MR.Sample.FileMapInput = ##class(MR.Sample.FileMapInput).%New(FileName)
-    #dim mapper As MR.Sample.WordCounter     = ##class(MR.Sample.WordCounter).%New()
+    #dim inputFile As MR.Input.FileLines    = ##class(MR.Input.FileLines).%New(FileName)
+    #dim mapper As MR.Sample.WordCounter    = ##class(MR.Sample.WordCounter).%New()
 
     while 'inputFile.IsAtEnd() {
         do mapper.Map(inputFile, infraPipe)

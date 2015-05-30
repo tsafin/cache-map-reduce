@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Input.GlobalBounds">
+<Description>
+Traversing of a standard CacheSQL storage global using [LowerLimit, UpperLimit) range defined
+@UpperLimit may be omitted, this will make it traversing till the end of global
+@LowerLimit should be defined, this bound is inclusive</Description>
+<Super>%RegisteredObject,MR.Base.Iterator</Super>
+<TimeCreated>63702,78523.96938</TimeCreated>
+
+<Property name="GlobalName">
+<Type>%String</Type>
+</Property>
+
+<Property name="LowerLimit">
+<Type>%String</Type>
+</Property>
+
+<Property name="UpperLimit">
+<Type>%String</Type>
+</Property>
+
+<Property name="NextIndex">
+<Type>%String</Type>
+<Private>1</Private>
+</Property>
+
+<Property name="AtEnd">
+<Type>%Boolean</Type>
+<InitialExpression>0</InitialExpression>
+<Private>1</Private>
+</Property>
+
+<Method name="%OnNew">
+<FormalSpec>Global:%String,Lower:%String,Upper:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #dim sc As %Status = $$$OK
+    set ..GlobalName = Global
+    set ..LowerLimit = Lower
+    set ..UpperLimit = $order(@Global@(Upper)) ; beyond upper bound, or ""
+    set i%NextIndex = ..LowerLimit
+    quit sc
+
+
+]]></Implementation>
+</Method>
+
+<Method name="GetNext">
+<Description>
+returns next valid index</Description>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+    quit:..AtEnd ""
+
+    #dim globalName As %String = ..GlobalName
+    #dim index As %String = i%NextIndex
+    //#dim value As %String = $get(@globalName@(index))
+    set i%NextIndex = $order(@globalName@(i%NextIndex))
+    set ..AtEnd = (..UpperLimit'="" && (..UpperLimit']]i%NextIndex)) || (i%NextIndex="")
+    //quit $lb(index)_value
+    quit index
+
+
+]]></Implementation>
+</Method>
+
+<Method name="IsAtEnd">
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+    quit ..AtEnd
+
+]]></Implementation>
+</Method>
+
+<Method name="Debug">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+    set o = ##class(MR.Input.GlobalBounds).%New($name(^MR.Sample.PersonD), 99998, 100000)
+    while 'o.IsAtEnd() {
+        write o.GetNext(), !
+    }
+
+]]></Implementation>
+</Method>
+</Class>
+</Export>

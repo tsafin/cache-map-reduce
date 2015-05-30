@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2015-05-27 01:07:02.529688" Target="##class(MR.Sample.TestRemoteConnection).TestLocal()" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2015-05-31 02:36:18.026084" Target="##class(MR.Sample.GlobalConstrainedInput).Debug()" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Iterator" type="CLS"></ProjectItem>
@@ -8,16 +8,22 @@
     <ProjectItem name="MR.Base.Reducer" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Emitter.Ordered" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Emitter.Sorted" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Input.GlobalBounds" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.Adder" type="CLS"></ProjectItem>
-    <ProjectItem name="MR.Sample.FileMapInput" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.AgeAverageSeq" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.GlobalPipe" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.GlobalPipeClone" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.Person" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.TestRemoteConnection" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCountMapReduce" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCountMapReduceSum" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCountMapReduceWorkers" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCounter" type="CLS"></ProjectItem>
     <ProjectItem name="net.remoteconnection.MAC" type="MAC"></ProjectItem>
-    <ProjectItem name="MR.Sample.TestRemoteConnection" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Input.FileLines" type="CLS"></ProjectItem>
   </Items>
+  <BreakPoints>
+    <BreakPoint Routine="MR.Sample.GlobalConstrainedInput.CLS" Offset="Debug+2"></BreakPoint>
+  </BreakPoints>
 </Project>
 </Export>

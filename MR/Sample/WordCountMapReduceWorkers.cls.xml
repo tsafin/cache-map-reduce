@@ -15,7 +15,7 @@ global array. </Description>
 <FormalSpec>FileName:%String,InfraPipeName:%String</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
-    #dim inputFile As MR.Sample.FileMapInput    = ##class(MR.Sample.FileMapInput).%New(FileName)
+    #dim inputFile As MR.Input.FileLines        = ##class(MR.Input.FileLines).%New(FileName)
     #dim mapper As MR.Sample.WordCounter        = ##class(MR.Sample.WordCounter).%New()
     #dim infraPipe As MR.Sample.GlobalPipeClone = ##class(MR.Sample.GlobalPipeClone).%New(InfraPipeName)
 
