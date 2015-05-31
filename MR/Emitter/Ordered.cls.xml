@@ -30,9 +30,8 @@ global name serving as data channel</Description>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     if ..#AUTOCLEANUP {
-        #dim name As %String = ..GlobalName
-        if $data(@name) {
-            kill @name
+        if $data(@i%GlobalName) {
+            kill @i%GlobalName
         }
     }
     Quit $$$OK
@@ -41,9 +40,7 @@ global name serving as data channel</Description>
 
 <Method name="IsAtEnd">
 <ReturnType>%Boolean</ReturnType>
-<Implementation><![CDATA[
-    #dim name As %String = ..GlobalName
-    quit ($data(@name)/10)=0
+<Implementation><![CDATA[    quit ($data(@i%GlobalName)/10)=0
 ]]></Implementation>
 </Method>
 
@@ -52,13 +49,12 @@ global name serving as data channel</Description>
 emit $listbuild(key,value)</Description>
 <FormalSpec>EmitList...:%String</FormalSpec>
 <Implementation><![CDATA[
-    #dim name As %String = ..GlobalName
     #dim list As %String = ""
 
     for i=1:1:$get(EmitList) {
         set $li(list,i) = $get(EmitList(i))
     }
-    set @name@($seq(@name)) = list
+    set @name@($seq(@i%GlobalName)) = list
 ]]></Implementation>
 </Method>
 
@@ -67,23 +63,20 @@ emit $listbuild(key,value)</Description>
 returns emitted $lb(key,value)</Description>
 <ReturnType>%String</ReturnType>
 <Implementation><![CDATA[
-    #dim name As %String = ..GlobalName
     #dim value As %String
-    #dim index As %String = $order(@name@(""),1,value)
+    #dim index As %String = $order(@i%GlobalName@(""),1,value)
     if index'="" {
-        kill @name@(index)
+        kill @i%GlobalName@(index)
         quit value
     } else {
-        kill @name
+        kill @i%GlobalName
         quit ""
     }
 ]]></Implementation>
 </Method>
 
 <Method name="Dump">
-<Implementation><![CDATA[
-    #dim name As %String = ..GlobalName
-    zwrite @name
+<Implementation><![CDATA[    zwrite @i%GlobalName
 ]]></Implementation>
 </Method>
 </Class>
