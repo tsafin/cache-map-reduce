@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2015-05-31 16:33:12.413966" Target="##class(MR.Sample.AgeAverageSeq).MapReduce()" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2015-05-31 22:26:12.10125" Target="##class(MR.Sample.AgeAverageSeq).MapReduce()" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Iterator" type="CLS"></ProjectItem>
@@ -23,6 +23,7 @@
     <ProjectItem name="MR.Sample.WordCountMapper" type="CLS"></ProjectItem>
     <ProjectItem name="net.remoteconnection.MAC" type="MAC"></ProjectItem>
     <ProjectItem name="MR.Sample.AgeAverageReducer" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.AgeAverageWorkers" type="CLS"></ProjectItem>
   </Items>
   <BreakPoints>
     <BreakPoint Routine="MR.Sample.GlobalConstrainedInput.CLS" Offset="Debug+2"></BreakPoint>

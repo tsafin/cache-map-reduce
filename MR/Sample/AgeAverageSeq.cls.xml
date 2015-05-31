@@ -3,11 +3,7 @@
 <Class name="MR.Sample.AgeAverageSeq">
 <Description>
 Very simple, single-threaded "map-reduce" example.
-Version #1 - trying to summarize word-count for all files to the single count
-BEWARE! 
-There is no intermediate controlling node before reducer, because MR.Emitter.Sorted 
-is automagically reduce and sort key values set to the single node because of using hierarchical 
-global array. </Description>
+Version #1 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce</Description>
 <Super>%RegisteredObject</Super>
 <TimeCreated>63702,77676.202552</TimeCreated>
 
