@@ -15,8 +15,10 @@ read strings from MR.Base.Iterator and count words</Description>
     #dim o As MR.Sample.Person = ##class(MR.Sample.Person).%OpenId(id)
     quit:'$isobject(o)
 
-    do MapOutput.Emit(o.Age, "Sum", o.Contacts)
-    do MapOutput.Emit(o.Age, "Count", 1)
+    // we prefix keys with numbers to make sure they will be retrieved 
+    // from the global pipe in the expected order
+    do MapOutput.Emit(o.Age, "1Sum", o.Contacts) ; NB! autoincrement
+    do MapOutput.Emit(o.Age, "2Count", 1) ; NB! autoincrement
 ]]></Implementation>
 </Method>
 </Class>

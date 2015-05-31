@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.AgeAverageReducer">
+<Super>%RegisteredObject,MR.Base.Reducer</Super>
+<TimeCreated>63703,58320.245155</TimeCreated>
+
+<Method name="Reduce">
+<FormalSpec>ReduceInput:MR.Base.Iterator,ReduceOutput:MR.Base.Emitter</FormalSpec>
+<Implementation><![CDATA[
+    #dim totalSum As %Numeric = 0
+    #dim totalCnt As %Numeric = 0
+    
+    #dim sum As %Numeric = 0
+    #dim cnt As %Numeric = 0
+
+    while 'ReduceInput.IsAtEnd() {
+        #dim list As %String = ReduceInput.GetNext() ; get <key,value> in $listbuild format
+        //zw list
+        set $lb(age, key, count) = list
+
+        // "1Sum" is going before "2Count"
+        if key="1Sum" {
+            set sum = count
+            set totalSum = totalSum + sum
+        } 
+        elseif key="2Count" {
+            set cnt = count
+            set totalCnt = totalCnt + cnt
+            do ReduceOutput.Emit(age, sum/cnt)
+        }
+    }
+    do ReduceOutput.Emit("Total Average", totalSum/totalCnt)
+]]></Implementation>
+</Method>
+</Class>
+</Export>
