@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Input.FileLines">
+<Super>%RegisteredObject,MR.Base.Iterator</Super>
+<TimeCreated>63686,6975.618931</TimeCreated>
+
+<Property name="File">
+<Type>%Stream.FileCharacter</Type>
+</Property>
+
+<Method name="%OnNew">
+<FormalSpec>FileName:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set ..File = ##class(%Stream.FileCharacter).%New()
+    #dim sc As %Status = ..File.LinkToFile(FileName)
+    quit sc
+
+]]></Implementation>
+</Method>
+
+<Method name="GetNext">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+    if $isobject(..File) && '..File.AtEnd {
+        // FIXME - how to properly handle empy lines in between?
+        quit ..File.ReadLine()
+    }
+    quit ""
+
+]]></Implementation>
+</Method>
+
+<Method name="IsAtEnd">
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+    quit '$isobject(..File) || ..File.AtEnd
+
+]]></Implementation>
+</Method>
+</Class>
+</Export>

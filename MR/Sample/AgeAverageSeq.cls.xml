@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.AgeAverageSeq">
+<Description>
+Very simple, single-threaded "map-reduce" example.
+Version #1 - trying to summarize word-count for all files to the single count
+BEWARE! 
+There is no intermediate controlling node before reducer, because MR.Emitter.Sorted 
+is automagically reduce and sort key values set to the single node because of using hierarchical 
+global array. </Description>
+<Super>%RegisteredObject</Super>
+<TimeCreated>63702,77676.202552</TimeCreated>
+
+<Method name="Map">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>globalName:%String,globalLow:%Integer,globalHigh:%Integer,infraPipe:MR.Sample.GlobalPipe</FormalSpec>
+<Implementation><![CDATA[
+    #dim inputGbl As MR.Input.GlobalBounds      = ##class(MR.Input.GlobalBounds).%New(globalName, globalLow, globalHigh)
+    #dim mapper As MR.Sample.AgeAverageCounter  = ##class(MR.Sample.AgeAverageCounter).%New()
+
+    while 'inputGbl.IsAtEnd() {
+        do mapper.Map(inputGbl, infraPipe)
+    }
+]]></Implementation>
+</Method>
+
+<Method name="MapReduce">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>populateN:%Numeric=0</FormalSpec>
+<Implementation><![CDATA[
+    if populateN {
+        do ##class(MR.Sample.Person).%DeleteExtent()
+        do ##class(MR.Sample.Person).Populate(populateN)
+    }
+    #dim globalName As %String      = $name(^MR.Sample.PersonD)
+    #dim globalLow As %Integer      = $order(@globalName@(""))
+    #dim globalHigh As %Integer     = $order(@globalName@(""),-1)
+    $$$ThrowOnError(globalLow < globalHigh)
+
+    #dim infraPipe As MR.Sample.GlobalPipe = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+    #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+    #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
+
+    do ..Map(globalName, globalLow, globalHigh, infraPipe)
+    do infraPipe.Dump()
+    quit
+
+    while 'infraPipe.IsAtEnd() {
+        do reducer.Reduce(infraPipe, outPipe)
+    }
+    do outPipe.Dump()
+
+    quit
+]]></Implementation>
+</Method>
+</Class>
+</Export>

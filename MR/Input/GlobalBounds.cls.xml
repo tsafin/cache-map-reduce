@@ -36,13 +36,13 @@ Traversing of a standard CacheSQL storage global using [LowerLimit, UpperLimit) 
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     #dim sc As %Status = $$$OK
+    $$$ThrowOnError(Global '= "")
     set ..GlobalName = Global
+    $$$ThrowOnError(Lower '= "")
     set ..LowerLimit = Lower
     set ..UpperLimit = $order(@Global@(Upper)) ; beyond upper bound, or ""
     set i%NextIndex = ..LowerLimit
     quit sc
-
-
 ]]></Implementation>
 </Method>
 
@@ -60,16 +60,12 @@ returns next valid index</Description>
     set ..AtEnd = (..UpperLimit'="" && (..UpperLimit']]i%NextIndex)) || (i%NextIndex="")
     //quit $lb(index)_value
     quit index
-
-
 ]]></Implementation>
 </Method>
 
 <Method name="IsAtEnd">
 <ReturnType>%Boolean</ReturnType>
-<Implementation><![CDATA[
-    quit ..AtEnd
-
+<Implementation><![CDATA[    quit ..AtEnd
 ]]></Implementation>
 </Method>
 
@@ -80,7 +76,6 @@ returns next valid index</Description>
     while 'o.IsAtEnd() {
         write o.GetNext(), !
     }
-
 ]]></Implementation>
 </Method>
 </Class>
