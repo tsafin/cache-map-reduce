@@ -17,7 +17,7 @@ global array. </Description>
 <FormalSpec>FileName:%String,infraPipe:MR.Sample.GlobalPipe</FormalSpec>
 <Implementation><![CDATA[
     #dim inputFile As MR.Input.FileLines    = ##class(MR.Input.FileLines).%New(FileName)
-    #dim mapper As MR.Sample.WordCounter    = ##class(MR.Sample.WordCounter).%New()
+    #dim mapper As MR.Sample.WordCountMapper= ##class(MR.Sample.WordCountMapper).%New()
 
     while 'inputFile.IsAtEnd() {
         do mapper.Map(inputFile, infraPipe)
@@ -41,8 +41,8 @@ global array. </Description>
         do ..Map(fileName, infraPipe)
         //do infraPipe.Dump()
 
-        #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
-        #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
+        #dim outPipe As MR.Base.Emitter          = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+        #dim reducer As MR.Sample.WordCountAdder = ##class(MR.Sample.WordCountAdder).%New()
 
         while 'infraPipe.IsAtEnd() {
             do reducer.Reduce(infraPipe, outPipe)

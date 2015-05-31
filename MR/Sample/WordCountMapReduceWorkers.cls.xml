@@ -16,7 +16,7 @@ global array. </Description>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     #dim inputFile As MR.Input.FileLines        = ##class(MR.Input.FileLines).%New(FileName)
-    #dim mapper As MR.Sample.WordCounter        = ##class(MR.Sample.WordCounter).%New()
+    #dim mapper As MR.Sample.WordCountMapper    = ##class(MR.Sample.WordCountMapper).%New()
     #dim infraPipe As MR.Sample.GlobalPipeClone = ##class(MR.Sample.GlobalPipeClone).%New(InfraPipeName)
 
     while 'inputFile.IsAtEnd() {
@@ -32,9 +32,9 @@ global array. </Description>
 <Implementation><![CDATA[
     new
 
-    #dim infraPipe As MR.Sample.GlobalPipe = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
-    #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
-    #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
+    #dim infraPipe As MR.Sample.GlobalPipe  = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+    #dim outPipe As MR.Base.Emitter         = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+    #dim reducer As MR.Sample.WordCountAdder= ##class(MR.Sample.WordCountAdder).%New()
 
     #dim sc As %Status = $$$OK
     // do $system.WorkMgr.StopWorkers()

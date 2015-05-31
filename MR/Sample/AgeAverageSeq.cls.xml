@@ -37,9 +37,9 @@ global array. </Description>
     #dim globalHigh As %Integer     = $order(@globalName@(""),-1)
     $$$ThrowOnError(globalLow < globalHigh)
 
-    #dim infraPipe As MR.Sample.GlobalPipe = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
-    #dim outPipe As MR.Base.Emitter = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
-    #dim reducer As MR.Sample.Adder = ##class(MR.Sample.Adder).%New()
+    #dim infraPipe As MR.Sample.GlobalPipe   = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+    #dim outPipe As MR.Base.Emitter          = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+    #dim reducer As MR.Sample.WordCountAdder = ##class(MR.Sample.WordCountAdder).%New()
 
     do ..Map(globalName, globalLow, globalHigh, infraPipe)
     do infraPipe.Dump()
