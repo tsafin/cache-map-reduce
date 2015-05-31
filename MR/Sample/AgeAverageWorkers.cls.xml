@@ -14,6 +14,7 @@ Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
 <Method name="Map">
 <ClassMethod>1</ClassMethod>
 <FormalSpec>globalName:%String,globalLow:%Integer,globalHigh:%Integer,infraPipeName:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     #dim inputGbl As MR.Input.GlobalBounds      = ##class(MR.Input.GlobalBounds).%New(globalName, globalLow, globalHigh)
     #dim mapper As MR.Sample.AgeAverageCounter  = ##class(MR.Sample.AgeAverageCounter).%New()
@@ -22,6 +23,7 @@ Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
     while 'inputGbl.IsAtEnd() {
         do mapper.Map(inputGbl, infraPipe)
     }
+    quit $$$OK
 ]]></Implementation>
 </Method>
 
@@ -39,7 +41,7 @@ Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
     $$$ThrowOnError(globalLow < globalHigh)
 
     #dim sc As %Status = $$$OK
-    //do $system.WorkMgr.StopWorkers()
+    do $system.WorkMgr.StopWorkers()
     Set ^||%ISC.WorkQueueMgr("ForceJobs") = ..#NUMBEROFWORKERS
     #dim queue As %SYSTEM.WorkMgr = $system.WorkMgr.Initialize("/multicompile=1", .sc) 
     quit:$$$ISERR(sc)
@@ -54,10 +56,12 @@ Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
         //do ..Map(globalName, globalLow, globalHigh, infraPipe)
         #dim regionLow As %Integer = regionSize*(i-1) + globalLow
         #dim regionHigh As %Integer = $select(i=..#NUMBEROFWORKERS:globalHigh, 1:regionSize*i + globalLow - 1)
+        //write i,?8,"[",regionLow,",",regionHigh,")",!
         set sc = queue.Queue("##class(MR.Sample.AgeAverageWorkers).Map", globalName, regionLow, regionHigh, infraPipe.GlobalName)
         quit:$$$ISERR(sc)
         //do infraPipe.Dump()
     }
+    set sc = queue.WaitForComplete()  quit:$$$ISERR(sc)
 
     while 'infraPipe.IsAtEnd() {
         do reducer.Reduce(infraPipe, outPipe)
