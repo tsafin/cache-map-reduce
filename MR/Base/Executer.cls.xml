@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Base.Executer">
+<Super>%RegisteredObject</Super>
+<TimeCreated>63738,3768.843365</TimeCreated>
+
+<Method name="Queue">
+<Abstract>1</Abstract>
+<FormalSpec>className:%String,methodName:%String,args...:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="WaitForComplete">
+<Abstract>1</Abstract>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="GetNumberOfWorkers">
+<Abstract>1</Abstract>
+<ReturnType>%Integer</ReturnType>
+</Method>
+
+<Method name="SetNumberOfWorkers">
+<Abstract>1</Abstract>
+<FormalSpec>Number:%Integer</FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+</Class>
+</Export>

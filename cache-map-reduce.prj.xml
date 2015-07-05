@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2015-06-01 00:00:47.714403" Target="##class(MR.Sample.AgeAverageWorkers).MapReduce()" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2015-07-06 00:14:48.412674" Target="##class(MR.Sample.AgeAverageGenericWorkers).MapReduce()" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Iterator" type="CLS"></ProjectItem>
@@ -11,7 +11,9 @@
     <ProjectItem name="MR.Input.FileLines" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Input.GlobalBounds" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.AgeAverageCounter" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.AgeAverageReducer" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.AgeAverageSeq" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.AgeAverageWorkers" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.GlobalPipe" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.GlobalPipeClone" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.Person" type="CLS"></ProjectItem>
@@ -22,13 +24,15 @@
     <ProjectItem name="MR.Sample.WordCountMapReduceWorkers" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCountMapper" type="CLS"></ProjectItem>
     <ProjectItem name="net.remoteconnection.MAC" type="MAC"></ProjectItem>
-    <ProjectItem name="MR.Sample.AgeAverageReducer" type="CLS"></ProjectItem>
-    <ProjectItem name="MR.Sample.AgeAverageWorkers" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Base.Executer" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Executer.LocalWorkers" type="CLS"></ProjectItem>
+    <ProjectItem name="MR.Sample.AgeAverageGenericWorkers" type="CLS"></ProjectItem>
   </Items>
   <BreakPoints>
-    <BreakPoint Routine="MR.Sample.GlobalConstrainedInput.CLS" Offset="Debug+2"></BreakPoint>
-    <BreakPoint Routine="MR.Sample.AgeAverageSeq.CLS" Offset="MapReduce+5"></BreakPoint>
-    <BreakPoint Routine="MR.Sample.AgeAverageWorkers.CLS" Offset="MapReduce+32"></BreakPoint>
+    <BreakPoint Routine="MR.Sample.AgeAverageWorkers.CLS" Offset="MapReduce+27"></BreakPoint>
+    <BreakPoint Routine="MR.Executer.LocalWorkers.CLS" Offset="Queue+5"></BreakPoint>
+    <BreakPoint Routine="MR.Sample.AgeAverageGenericWorkers.CLS" Offset="MapReduce+24"></BreakPoint>
+    <BreakPoint Routine="MR.Sample.AgeAverageGenericWorkers.CLS" Offset="MapReduce+28"></BreakPoint>
   </BreakPoints>
 </Project>
 </Export>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Executer.LocalWorkers">
+<Super>MR.Base.Executer</Super>
+<TimeCreated>63738,4297.150806</TimeCreated>
+
+<Property name="Queue">
+<Type>%SYSTEM.WorkMgr</Type>
+</Property>
+
+<Method name="%OnNew">
+<FormalSpec>stopWorkers:%Boolean=1</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #dim sc As %Status = $$$OK
+    if stopWorkers {
+        do $system.WorkMgr.StopWorkers()
+    }
+    Set ..Queue = $system.WorkMgr.Initialize("/multicompile=1", .sc) 
+    quit sc
+]]></Implementation>
+</Method>
+
+<Method name="Queue">
+<FormalSpec>className:%String,methodName:%String,args...:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #dim classMethodName As %String = "##class("_className_")."_methodName
+    #if 0
+    quit ..Queue.Queue(classMethodName, args)
+    #else
+    quit $method(..Queue, "Queue", classMethodName, .args)
+    #endif
+]]></Implementation>
+</Method>
+
+<Method name="WaitForComplete">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[    quit ..Queue.WaitForComplete()
+]]></Implementation>
+</Method>
+
+<Method name="GetNumberOfWorkers">
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[    quit -1
+]]></Implementation>
+</Method>
+
+<Method name="SetNumberOfWorkers">
+<FormalSpec>Number:%Integer</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #dim sc As %Status = $$$OK
+
+    do $system.WorkMgr.StopWorkers()
+    Set ^||%ISC.WorkQueueMgr("ForceJobs") = Number
+    Set ..Queue = $system.WorkMgr.Initialize("/multicompile=1", .sc)
+
+    quit sc
+]]></Implementation>
+</Method>
+</Class>
+</Export>
