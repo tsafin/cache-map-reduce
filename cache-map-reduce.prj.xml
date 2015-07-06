@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2015-07-06 00:14:48.412674" Target="##class(MR.Sample.AgeAverageGenericWorkers).MapReduce()" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2015-07-06 12:10:28.141756" Target="##class(MR.Sample.AgeAverageGenericWorkers).MapReduce()" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Iterator" type="CLS"></ProjectItem>
@@ -28,11 +28,5 @@
     <ProjectItem name="MR.Executer.LocalWorkers" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.AgeAverageGenericWorkers" type="CLS"></ProjectItem>
   </Items>
-  <BreakPoints>
-    <BreakPoint Routine="MR.Sample.AgeAverageWorkers.CLS" Offset="MapReduce+27"></BreakPoint>
-    <BreakPoint Routine="MR.Executer.LocalWorkers.CLS" Offset="Queue+5"></BreakPoint>
-    <BreakPoint Routine="MR.Sample.AgeAverageGenericWorkers.CLS" Offset="MapReduce+24"></BreakPoint>
-    <BreakPoint Routine="MR.Sample.AgeAverageGenericWorkers.CLS" Offset="MapReduce+28"></BreakPoint>
-  </BreakPoints>
 </Project>
 </Export>

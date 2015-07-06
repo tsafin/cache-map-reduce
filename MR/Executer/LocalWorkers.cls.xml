@@ -26,11 +26,7 @@
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     #dim classMethodName As %String = "##class("_className_")."_methodName
-    #if 0
-    quit ..Queue.Queue(classMethodName, args)
-    #else
-    quit $method(..Queue, "Queue", classMethodName, .args)
-    #endif
+    quit ..Queue.Queue(classMethodName, args...)
 ]]></Implementation>
 </Method>
 
