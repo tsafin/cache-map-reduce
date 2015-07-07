@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Executer.RemoteWorker">
+<IncludeCode>%apiCBIND</IncludeCode>
+<Super>MR.Base.Executer</Super>
+<TimeCreated>63740,7042.863877</TimeCreated>
+
+<Property name="Connection">
+<Type>%Net.RemoteConnection</Type>
+</Property>
+
+<Property name="Address">
+<Type>%String</Type>
+</Property>
+
+<Property name="Port">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="NameSpace">
+<Type>%String</Type>
+</Property>
+
+<Property name="Login">
+<Type>%String</Type>
+</Property>
+
+<Property name="Password">
+<Type>%String</Type>
+</Property>
+
+<Method name="%OnNew">
+<FormalSpec>address:%String="127.0.0.1",port:%Integer=1972,ns:%String="",login:%String="",passwd:%String=""</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set ..Connection = ##class(%Net.RemoteConnection).%New()
+    set ..Address = address
+    set ..Port = port
+    set ..NameSpace = ns
+    set ..Login = login
+    set ..Password = passwd
+    quit ..Connection.Connect(..Address,..NameSpace,..Port,..Login,..Password)
+]]></Implementation>
+</Method>
+
+<Method name="%OnClose">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    if $isobject(..Connection) {
+        do ..Connection.Disconnect()
+    }
+    quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Queue">
+<FormalSpec>className:%String,methodName:%String,args...:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #dim classMethodName As %String = "##class("_className_")."_methodName
+    #dim rVal As %String = ""
+    quit ..Connection.InvokeClassMethod(className, methodName, .rVal, 1 /*has return*/, $$$cbindStringId)
+    zw rVal
+]]></Implementation>
+</Method>
+
+<Method name="WaitForComplete">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #; TODO?
+    quit $$$OK // ..Queue.WaitForComplete()
+]]></Implementation>
+</Method>
+
+<Method name="GetNumberOfWorkers">
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[    quit -1
+]]></Implementation>
+</Method>
+
+<Method name="SetNumberOfWorkers">
+<FormalSpec>Number:%Integer</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #dim sc As %Status = $$$OK
+
+    #; TODO?
+    quit sc
+]]></Implementation>
+</Method>
+</Class>
+</Export>
