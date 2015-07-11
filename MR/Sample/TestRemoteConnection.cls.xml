@@ -9,7 +9,7 @@
 <ClassMethod>1</ClassMethod>
 <FormalSpec>Arg:%String</FormalSpec>
 <ReturnType>%String</ReturnType>
-<Implementation><![CDATA[    quit $zu(5)_"^"_$i(^MR.Sample.TestRemoteConnectionD)
+<Implementation><![CDATA[    quit $zu(5)_"^"_##class(%SYS.System).GetInstanceName()_"^"_$i(^MR.Sample.TestRemoteConnectionD)
 ]]></Implementation>
 </Method>
 
@@ -38,6 +38,19 @@
     set status = connection.InvokeClassMethod(..%ClassName(1), "TestMethod", .rVal, 1 /*has return*/, $$$cbindStringId)
     zw rVal
     do connection.Disconnect()
+]]></Implementation>
+</Method>
+
+<Method name="TestRemoteWorker">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+    #dim worker As MR.Executer.RemoteWorker = ##class(MR.Executer.RemoteWorker).%New("127.0.0.1", 1972, "RMAPREDUCE", "_SYSTEM", "SYS")
+    if '$isobject(worker) {
+        zw %objlasterror
+        quit
+    }
+    #dim rVal As %String = worker.CallS(..%ClassName(1), "TestMethod", "Hello")
+    zw rVal
 ]]></Implementation>
 </Method>
 </Class>
