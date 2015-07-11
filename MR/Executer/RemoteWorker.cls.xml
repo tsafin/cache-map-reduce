@@ -53,14 +53,26 @@
 ]]></Implementation>
 </Method>
 
+<Method name="Call">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>className:%String,methodName:%String,retValue:%String,args...:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    for i=1:1:$get(args) {
+        #dim V As %String = args(i)
+        #dim cbindType As %Integer = $$isCbindType^MR.TypeConverter(V)
+        write "value: ", V, ?14, "type: ", cbindType,!
+    }
+    quit $$$OK
+]]></Implementation>
+</Method>
+
 <Method name="Queue">
 <FormalSpec>className:%String,methodName:%String,args...:%String</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
-    #dim classMethodName As %String = "##class("_className_")."_methodName
     #dim rVal As %String = ""
     quit ..Connection.InvokeClassMethod(className, methodName, .rVal, 1 /*has return*/, $$$cbindStringId)
-    zw rVal
 ]]></Implementation>
 </Method>
 
