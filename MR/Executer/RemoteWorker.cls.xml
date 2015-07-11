@@ -54,16 +54,17 @@
 </Method>
 
 <Method name="Call">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>className:%String,methodName:%String,retValue:%String,args...:%String</FormalSpec>
+<FormalSpec>className:%String,methodName:%String,*retValue:%String,args...:%String</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
+    do ..Connection.ResetArguments()
     for i=1:1:$get(args) {
         #dim V As %String = args(i)
         #dim cbindType As %Integer = $$isCbindType^MR.TypeConverter(V)
-        write "value: ", V, ?14, "type: ", cbindType,!
+        #;write "value: ", V, ?14, "type: ", cbindType,!
+        do ..Connection.AddArgument(V, 0 /* by ref */, cbindType)
     }
-    quit $$$OK
+    quit ..Connection.InvokeClassMethod(className, methodName, .retValue, 1 /* has return */, $$$cbindStringId)
 ]]></Implementation>
 </Method>
 
@@ -72,7 +73,7 @@
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     #dim rVal As %String = ""
-    quit ..Connection.InvokeClassMethod(className, methodName, .rVal, 1 /*has return*/, $$$cbindStringId)
+    quit ..Call(className, methodName, .rVal, args...)
 ]]></Implementation>
 </Method>
 
