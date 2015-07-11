@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Routine name="MR.TypeConverter" type="MAC" languagemode="0"><![CDATA[
+#include %apiCBIND
+
+#define LTBINS      1
+#define LTUSTR      2
+#define LTPINT      4
+#define LTNINT      5
+#define LTPDB       6
+#define LTNDB       7
+#define LTFLT       8
+#define LTEEDB      9
+#define LTPBDB      10
+#define LTNBDB      11
+#define LTSBL       12
+#define LTSPUN      13
+#define LTMPUN      14
+#define LTBPUN      15
+
+isCbindType(%value)
+    new (%value)
+    #dim typeOfs As %Integer = 2
+    #dim list As %String = $lb(%value)
+    if ($ascii($extract(list,1))=0) {
+        set typeOfs = 4
+        if ($sconvert($extract(list,2,3),"U2")=0) {
+            set typeOfs = 8
+        }
+    }
+    #dim lbType As %String = $ascii($extract(list, typeOfs, typeOfs))
+
+    if (lbType=$$$LTBINS) || (lbType=$$$LTUSTR) ||
+       (lbType=$$$LTSBL) || (lbType=$$$LTSPUN) ||
+       (lbType=$$$LTMPUN) || (lbType=$$$LTBPUN) {
+           return $$$cbindStringId
+    }
+    if (lbType=$$$LTPINT) || (lbType=$$$LTNINT) {
+           return $$$cbindIntId
+    }
+    if (lbType=$$$LTPDB) || (lbType=$$$LTNDB) ||
+       (lbType=$$$LTFLT) || (lbType=$$$LTEEDB) ||
+       (lbType=$$$LTPBDB) || (lbType=$$$LTNBDB) {
+           return $$$cbindDoubleId
+    }
+    return $$$cbindVoid
+
+
+]]></Routine>
+</Export>

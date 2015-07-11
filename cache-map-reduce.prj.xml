@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2015-07-12 00:46:38.057972" Target="isCbindType^MR.TypeConverter($j(&quot;&quot;,256))" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2015-07-12 00:51:42.091729" Target="isCbindType^MR.TypeConverter($j(&quot;&quot;,256))" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Executer" type="CLS"></ProjectItem>
@@ -27,7 +27,6 @@
     <ProjectItem name="MR.Sample.WordCountMapReduceSum" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCountMapReduceWorkers" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCountMapper" type="CLS"></ProjectItem>
-    <ProjectItem name="net.remoteconnection.MAC" type="MAC"></ProjectItem>
     <ProjectItem name="MR.TypeConverter.MAC" type="MAC"></ProjectItem>
   </Items>
   <BreakPoints>
