@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.AgeAverageRemoteWorkers">
+<Description>
+Very simple, multiple-threaded "map-reduce" example.
+Version #2.1 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce and workers
+               but running workers via generic interface</Description>
+<IncludeCode>%syConfig</IncludeCode>
+<Super>%RegisteredObject</Super>
+<TimeCreated>64075,68450.101124</TimeCreated>
+
+<Parameter name="NUMBEROFWORKERS">
+<Default>10</Default>
+</Parameter>
+
+<Method name="Map">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>globalName:%String,globalLow:%Integer,globalHigh:%Integer,infraPipeName:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #dim inputGbl As MR.Input.GlobalBounds      = ##class(MR.Input.GlobalBounds).%New(globalName, globalLow, globalHigh)
+    #dim mapper As MR.Sample.AgeAverageCounter  = ##class(MR.Sample.AgeAverageCounter).%New()
+    #dim infraPipe As MR.Sample.GlobalPipeClone = ##class(MR.Sample.GlobalPipeClone).%New(infraPipeName)
+
+    while 'inputGbl.IsAtEnd() {
+        do mapper.Map(inputGbl, infraPipe)
+    }
+    quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LocalServerPort">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>*ServerName:%String,*ServerPort:%String</FormalSpec>
+<Implementation><![CDATA[
+    new $namespace 
+    zn "%sys"
+    set ServerName = $$$CONFGLO("Startup","WebServerName") 
+    set:ServerName="" ServerName="127.0.0.1"
+    set ServerPort = $$$CONFGLO("Startup","WebServerPort")
+]]></Implementation>
+</Method>
+
+<Method name="MapReduce">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>populateN:%Numeric=0</FormalSpec>
+<Implementation><![CDATA[
+    if populateN {
+        do ##class(MR.Sample.Person).%DeleteExtent()
+        do ##class(MR.Sample.Person).Populate(populateN)
+    }
+    #dim globalName As %String      = $name(^MR.Sample.PersonD)
+    #dim globalLow As %Integer      = $order(@globalName@(""))
+    #dim globalHigh As %Integer     = $order(@globalName@(""),-1)
+    $$$ThrowOnError(globalLow < globalHigh)
+
+    //#dim queue As MR.Base.Executer = ##class(MR.Executer.LocalWorkers).%New()
+    // connect to ourselves
+    #dim serverName As %String
+    #dim serverPort As %String
+    do ..LocalServerPort(.serverName, .serverPort)
+    #dim queue As MR.Base.Executer = ##class(MR.Executer.RemoteWorker).%New(serverName, serverPort, $namespace, "_SYSTEM", "SYS")
+    quit:'$isobject(queue)
+    do queue.SetNumberOfWorkers(..#NUMBEROFWORKERS)
+
+    #dim infraPipe As MR.Sample.GlobalPipe      = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+    #dim outPipe As MR.Base.Emitter             = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+    #dim reducer As MR.Sample.AgeAverageReducer = ##class(MR.Sample.AgeAverageReducer).%New()
+
+    #dim regionSize As %Integer = ((globalHigh - globalLow) \ ..#NUMBEROFWORKERS)
+
+    for i=1:1:..#NUMBEROFWORKERS {
+        #dim regionLow As %Integer = regionSize*(i-1) + globalLow
+        #dim regionHigh As %Integer = $select(i=..#NUMBEROFWORKERS:globalHigh, 1:regionSize*i + globalLow - 1)
+        //write i,?8,"[",regionLow,",",regionHigh,")",!
+        set sc = queue.Queue("MR.Sample.AgeAverageGenericWorkers","Map", globalName, regionLow, regionHigh, infraPipe.GlobalName)
+        quit:$$$ISERR(sc)
+        //do infraPipe.Dump()
+    }
+    set sc = queue.WaitForComplete()  quit:$$$ISERR(sc)
+
+    while 'infraPipe.IsAtEnd() {
+        do reducer.Reduce(infraPipe, outPipe)
+    }
+    do outPipe.Dump()
+
+    quit
+]]></Implementation>
+</Method>
+</Class>
+</Export>

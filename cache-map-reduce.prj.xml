@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2015-07-12 01:33:53.517265" Target="##class(MR.Sample.TestRemoteConnection).TestRemoteWorker()" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2016-06-06 19:45:09.905519" Target="##class(MR.Sample.TestRemoteConnection).TestRemoteWorker()" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Executer" type="CLS"></ProjectItem>
@@ -28,9 +28,11 @@
     <ProjectItem name="MR.Sample.WordCountMapReduceWorkers" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.WordCountMapper" type="CLS"></ProjectItem>
     <ProjectItem name="MR.TypeConverter.MAC" type="MAC"></ProjectItem>
+    <ProjectItem name="MR.Sample.AgeAverageRemoteWorkers" type="CLS"></ProjectItem>
   </Items>
   <BreakPoints>
     <BreakPoint Routine="MR.Executer.RemoteWorker.CLS" Offset="%OnNew+1"></BreakPoint>
+    <BreakPoint Routine="MR.Sample.TestRemoteConnection.CLS" Offset="TestRemoteWorker+1"></BreakPoint>
     <BreakPoint Routine="MR.TypeConverter.MAC" Offset="19"></BreakPoint>
   </BreakPoints>
 </Project>
