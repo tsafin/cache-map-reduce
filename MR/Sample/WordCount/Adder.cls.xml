@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.WordCountAdder">
+<Class name="MR.Sample.WordCount.Adder">
 <Super>%RegisteredObject,MR.Base.Reducer</Super>
 <TimeCreated>63676,62655.307223</TimeCreated>
 
@@ -15,6 +15,7 @@
         set result = result + count
     }
     do ReduceOutput.Emit("Count", result)
+
 
 ]]></Implementation>
 </Method>

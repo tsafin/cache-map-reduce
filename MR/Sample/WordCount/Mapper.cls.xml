@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.WordCountMapper">
+<Class name="MR.Sample.WordCount.Mapper">
 <Description>
 </Description>
 <Super>%RegisteredObject,MR.Base.Mapper</Super>
@@ -19,6 +19,7 @@ read strings from MR.Base.Iterator and count words</Description>
         #dim word As %String = pattern.Group
         do MapOutput.Emit(word)
     }
+
 
 ]]></Implementation>
 </Method>

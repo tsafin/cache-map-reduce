@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.WordCount.App">
+<Description>
+Very simple, single-threaded "map-reduce" example.
+Version #0 - not actually trying to summarize word-count for all files
+             but displaying each word-count separately
+BEWARE! 
+There is no intermediate controlling node before reducer, because MR.Emitter.Sorted 
+is automagically reduce and sort key values set to the single node because of using hierarchical 
+global array. </Description>
+<Super>%RegisteredObject</Super>
+<TimeCreated>63676,63054.129416</TimeCreated>
+
+<Method name="Map">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>FileName:%String,infraPipe:MR.Sample.GlobalPipe</FormalSpec>
+<Implementation><![CDATA[
+    #dim inputFile As MR.Input.FileLines    = ##class(MR.Input.FileLines).%New(FileName)
+    #dim mapper As MR.Sample.WordCountMapper= ##class(MR.Sample.WordCountMapper).%New()
+
+    while 'inputFile.IsAtEnd() {
+        do mapper.Map(inputFile, infraPipe)
+    }
+
+]]></Implementation>
+</Method>
+
+<Method name="MapReduce">
+<ClassMethod>1</ClassMethod>
+<ProcedureBlock>0</ProcedureBlock>
+<Implementation><![CDATA[
+    new
+    //kill ^mtemp.Map,^mtemp.Reduce
+
+    #dim infraPipe As MR.Sample.GlobalPipe = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+
+    for i=1:1 {
+        #dim fileName As %String = $piece($Text(DATA+i),";",3)
+        quit:fileName=""
+
+        do ..Map(fileName, infraPipe)
+        //do infraPipe.Dump()
+
+        #dim outPipe As MR.Base.Emitter          = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+        #dim reducer As MR.Sample.WordCountAdder = ##class(MR.Sample.WordCountAdder).%New()
+
+        while 'infraPipe.IsAtEnd() {
+            do reducer.Reduce(infraPipe, outPipe)
+        }
+        do outPipe.Dump()
+    }
+    quit
+    
+DATA
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol1.txt
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol2.txt
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol3.txt
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\war_an_peace_vol4.txt
+    ;;
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\single-line.txt
+    ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\multiple-lines.txt
+
+
+]]></Implementation>
+</Method>
+</Class>
+</Export>
