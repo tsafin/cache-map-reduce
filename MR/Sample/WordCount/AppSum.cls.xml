@@ -15,13 +15,12 @@ global array. </Description>
 <ClassMethod>1</ClassMethod>
 <FormalSpec>FileName:%String,infraPipe:MR.Sample.GlobalPipe</FormalSpec>
 <Implementation><![CDATA[
-    #dim inputFile As MR.Input.FileLines    = ##class(MR.Input.FileLines).%New(FileName)
-    #dim mapper As MR.Sample.WordCountMapper= ##class(MR.Sample.WordCountMapper).%New()
+    #dim inputFile As MR.Input.FileLines      = ##class(MR.Input.FileLines).%New(FileName)
+    #dim mapper As MR.Sample.WordCount.Mapper = ##class(MR.Sample.WordCount.Mapper).%New()
 
     while 'inputFile.IsAtEnd() {
         do mapper.Map(inputFile, infraPipe)
     }
-
 ]]></Implementation>
 </Method>
 
@@ -31,9 +30,9 @@ global array. </Description>
 <Implementation><![CDATA[
     new
 
-    #dim infraPipe As MR.Sample.GlobalPipe  = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
-    #dim outPipe As MR.Base.Emitter         = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
-    #dim reducer As MR.Sample.WordCountAdder= ##class(MR.Sample.WordCountAdder).%New()
+    #dim infraPipe As MR.Sample.GlobalPipe    = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+    #dim outPipe As MR.Base.Emitter           = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+    #dim reducer As MR.Sample.WordCount.Adder = ##class(MR.Sample.WordCount.Adder).%New()
 
     for i=1:1 {
         #dim fileName As %String = $piece($Text(DATA+i),";",3)
@@ -58,8 +57,6 @@ DATA
     ;;
     ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\single-line.txt
     ;;C:\Users\Timur\Documents\Intersystems\src\work\mapreduce\data\multiple-lines.txt
-
-
 ]]></Implementation>
 </Method>
 </Class>
