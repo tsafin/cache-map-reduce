@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.AgeAverageReducer">
+<Class name="MR.Sample.AgeAverage.Reducer">
 <Super>%RegisteredObject,MR.Base.Reducer</Super>
 <TimeCreated>63703,58320.245155</TimeCreated>
 
@@ -30,6 +30,7 @@
         }
     }
     do ReduceOutput.Emit("Total Average", totalSum/totalCnt)
+
 ]]></Implementation>
 </Method>
 </Class>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.AgeAverageSeq">
+<Class name="MR.Sample.AgeAverage.AppSeq">
 <Description>
 Very simple, single-threaded "map-reduce" example.
 Version #1 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce</Description>
@@ -12,7 +12,7 @@ Version #1 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
 <FormalSpec>globalName:%String,globalLow:%Integer,globalHigh:%Integer,infraPipe:MR.Sample.GlobalPipe</FormalSpec>
 <Implementation><![CDATA[
     #dim inputGbl As MR.Input.GlobalBounds      = ##class(MR.Input.GlobalBounds).%New(globalName, globalLow, globalHigh)
-    #dim mapper As MR.Sample.AgeAverageCounter  = ##class(MR.Sample.AgeAverageCounter).%New()
+    #dim mapper As MR.Sample.AgeAverage.Counter = ##class(MR.Sample.AgeAverage.Counter).%New()
 
     while 'inputGbl.IsAtEnd() {
         do mapper.Map(inputGbl, infraPipe)
@@ -25,17 +25,17 @@ Version #1 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
 <FormalSpec>populateN:%Numeric=0</FormalSpec>
 <Implementation><![CDATA[
     if populateN {
-        do ##class(MR.Sample.Person).%DeleteExtent()
-        do ##class(MR.Sample.Person).Populate(populateN)
+        do ##class(MR.Sample.AgeAverage.Person).%DeleteExtent()
+        do ##class(MR.Sample.AgeAverage.Person).Populate(populateN)
     }
     #dim globalName As %String      = $name(^MR.Sample.PersonD)
     #dim globalLow As %Integer      = $order(@globalName@(""))
     #dim globalHigh As %Integer     = $order(@globalName@(""),-1)
     $$$ThrowOnError(globalLow < globalHigh)
 
-    #dim infraPipe As MR.Sample.GlobalPipe      = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
-    #dim outPipe As MR.Base.Emitter             = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
-    #dim reducer As MR.Sample.AgeAverageReducer = ##class(MR.Sample.AgeAverageReducer).%New()
+    #dim infraPipe As MR.Sample.GlobalPipe       = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+    #dim outPipe As MR.Base.Emitter              = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+    #dim reducer As MR.Sample.AgeAverage.Reducer = ##class(MR.Sample.AgeAverage.Reducer).%New()
 
     do ..Map(globalName, globalLow, globalHigh, infraPipe)
     //do infraPipe.Dump()

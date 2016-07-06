@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.AgeAverageCounter">
+<Class name="MR.Sample.AgeAverage.Counter">
 <Description>
 </Description>
 <Super>%RegisteredObject,MR.Base.Mapper</Super>
@@ -12,7 +12,7 @@ read strings from MR.Base.Iterator and count words</Description>
 <FormalSpec>MapInput:MR.Base.Iterator,MapOutput:MR.Base.Emitter</FormalSpec>
 <Implementation><![CDATA[
     #dim id As %String = MapInput.GetNext()
-    #dim o As MR.Sample.Person = ##class(MR.Sample.Person).%OpenId(id)
+    #dim o As MR.Sample.AgeAveragePerson = ##class(MR.Sample.AgeAverage.Person).%OpenId(id)
     quit:'$isobject(o)
 
     // we prefix keys with numbers to make sure they will be retrieved 

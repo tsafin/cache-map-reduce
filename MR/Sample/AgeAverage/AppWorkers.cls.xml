@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Class name="MR.Sample.AgeAverageWorkers">
+<Class name="MR.Sample.AgeAverage.AppWorkers">
 <Description>
 Very simple, multiple-threaded "map-reduce" example.
 Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce and workers</Description>
@@ -17,7 +17,7 @@ Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     #dim inputGbl As MR.Input.GlobalBounds      = ##class(MR.Input.GlobalBounds).%New(globalName, globalLow, globalHigh)
-    #dim mapper As MR.Sample.AgeAverageCounter  = ##class(MR.Sample.AgeAverageCounter).%New()
+    #dim mapper As MR.Sample.AgeAverage.Counter = ##class(MR.Sample.AgeAverage.Counter).%New()
     #dim infraPipe As MR.Sample.GlobalPipeClone = ##class(MR.Sample.GlobalPipeClone).%New(infraPipeName)
 
     while 'inputGbl.IsAtEnd() {
@@ -32,8 +32,8 @@ Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
 <FormalSpec>populateN:%Numeric=0</FormalSpec>
 <Implementation><![CDATA[
     if populateN {
-        do ##class(MR.Sample.Person).%DeleteExtent()
-        do ##class(MR.Sample.Person).Populate(populateN)
+        do ##class(MR.Sample.AgeAverage.Person).%DeleteExtent()
+        do ##class(MR.Sample.AgeAverage.Person).Populate(populateN)
     }
     #dim globalName As %String      = $name(^MR.Sample.PersonD)
     #dim globalLow As %Integer      = $order(@globalName@(""))
@@ -46,9 +46,9 @@ Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
     #dim queue As %SYSTEM.WorkMgr = $system.WorkMgr.Initialize("/multicompile=1", .sc) 
     quit:$$$ISERR(sc)
 
-    #dim infraPipe As MR.Sample.GlobalPipe      = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
-    #dim outPipe As MR.Base.Emitter             = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
-    #dim reducer As MR.Sample.AgeAverageReducer = ##class(MR.Sample.AgeAverageReducer).%New()
+    #dim infraPipe As MR.Sample.GlobalPipe       = ##class(MR.Sample.GlobalPipe).%New($name(^mtemp.Map($J)))
+    #dim outPipe As MR.Base.Emitter              = ##class(MR.Emitter.Sorted).%New($name(^mtemp.Reduce($J)))
+    #dim reducer As MR.Sample.AgeAverage.Reducer = ##class(MR.Sample.AgeAverage.Reducer).%New()
 
     #dim regionSize As %Integer = ((globalHigh - globalLow) \ ..#NUMBEROFWORKERS)
 
@@ -57,7 +57,7 @@ Version #2 - trying to do "select age, agv(contacts) goup by age" via Map-Reduce
         #dim regionLow As %Integer = regionSize*(i-1) + globalLow
         #dim regionHigh As %Integer = $select(i=..#NUMBEROFWORKERS:globalHigh, 1:regionSize*i + globalLow - 1)
         //write i,?8,"[",regionLow,",",regionHigh,")",!
-        set sc = queue.Queue("##class(MR.Sample.AgeAverageWorkers).Map", globalName, regionLow, regionHigh, infraPipe.GlobalName)
+        set sc = queue.Queue("##class(MR.Sample.AgeAverage.AppWorkers).Map", globalName, regionLow, regionHigh, infraPipe.GlobalName)
         quit:$$$ISERR(sc)
         //do infraPipe.Dump()
     }

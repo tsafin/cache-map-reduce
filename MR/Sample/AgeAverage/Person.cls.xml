@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="MR.Sample.AgeAverage.Person">
+<StorageStrategy/>
+<Super>%Persistent,%Populate</Super>
+<TimeCreated>63702,1551.341127</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="Age">
+<Type>%Integer</Type>
+<Parameter name="MAXVAL" value="100"/>
+<Parameter name="MINVAL" value="1"/>
+</Property>
+
+<Property name="Contacts">
+<Type>%Integer</Type>
+<Parameter name="MAXVAL" value="40"/>
+<Parameter name="MINVAL" value="0"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^MR.Sample.AgeAverage.PersonD</DataLocation>
+<DefaultData>PersonDefaultData</DefaultData>
+<IdLocation>^MR.Sample.AgeAverage.PersonD</IdLocation>
+<IndexLocation>^MR.Sample.AgeAverage.PersonI</IndexLocation>
+<StreamLocation>^MR.Sample.AgeAverage.PersonS</StreamLocation>
+<Data name="PersonDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Age</Value>
+</Value>
+<Value name="4">
+<Value>Contacts</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
