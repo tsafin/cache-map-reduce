@@ -28,6 +28,7 @@ global array. </Description>
 
 <Method name="MapReduce">
 <ClassMethod>1</ClassMethod>
+<FormalSpec>jobs:%Integer=0</FormalSpec>
 <ProcedureBlock>0</ProcedureBlock>
 <Implementation><![CDATA[
     new
@@ -38,7 +39,9 @@ global array. </Description>
 
     #dim sc As %Status = $$$OK
     // do $system.WorkMgr.StopWorkers()
-    // Set ^||%ISC.WorkQueueMgr("ForceJobs")=job
+    if $get(jobs) > 0 {
+        set ^||%ISC.WorkQueueMgr("ForceJobs") = jobs
+    }
     #dim queue As %SYSTEM.WorkMgr = $system.WorkMgr.Initialize("/multicompile=1", .sc) 
     quit:$$$ISERR(sc)
 

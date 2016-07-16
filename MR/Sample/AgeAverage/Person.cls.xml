@@ -28,6 +28,7 @@
 <IdLocation>^MR.Sample.AgeAverage.PersonD</IdLocation>
 <IndexLocation>^MR.Sample.AgeAverage.PersonI</IndexLocation>
 <StreamLocation>^MR.Sample.AgeAverage.PersonS</StreamLocation>
+<ExtentSize>10000</ExtentSize>
 <Data name="PersonDefaultData">
 <Structure>listnode</Structure>
 <Subscript/>
@@ -44,6 +45,30 @@
 <Value>Contacts</Value>
 </Value>
 </Data>
+<Property name="%%CLASSNAME">
+<Selectivity>0.0233%</Selectivity>
+<OutlierSelectivity>.997667:</OutlierSelectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>3.84</AverageFieldSize>
+</Property>
+<Property name="Age">
+<Selectivity>0.9414%</Selectivity>
+<AverageFieldSize>1.92</AverageFieldSize>
+</Property>
+<Property name="Contacts">
+<Selectivity>2.4987%</Selectivity>
+<AverageFieldSize>1.78</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>0.0100%</Selectivity>
+<AverageFieldSize>15.95</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-180</BlockCount>
+</SQLMap>
 </Storage>
 </Class>
 </Export>
