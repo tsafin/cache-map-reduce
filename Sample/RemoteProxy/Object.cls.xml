@@ -9,7 +9,7 @@ sample of a remote proxy using %Net.RemoteConnection</Description>
 <Property name="OpenedObject">
 <Description>
 keep openedobject for the proxy access later</Description>
-<Type>%RegisteredObject</Type>
+<Type>%Binary</Type>
 </Property>
 
 <Property name="Owner">
@@ -17,16 +17,74 @@ keep openedobject for the proxy access later</Description>
 <Internal>1</Internal>
 </Property>
 
+<Property name="LastStatus">
+<Type>%Status</Type>
+<Internal>1</Internal>
+<InitialExpression>$$$OK</InitialExpression>
+</Property>
+
+<Method name="RemoteConnection">
+<CodeMode>expression</CodeMode>
+<ReturnType>%Net.RemoteConnection</ReturnType>
+<Implementation><![CDATA[..Owner.RemoteConnection
+]]></Implementation>
+</Method>
+
+<Method name="%OnNew">
+<FormalSpec>owner:Sample.RemoteProxy</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set ..Owner = owner
+    
+    return $$$OK
+]]></Implementation>
+</Method>
+
 <Method name="%CreateInstance">
 <Description>
 open instance of a different class using given %ID</Description>
-<ClassMethod>1</ClassMethod>
-<FormalSpec>className:%String,%ID:%String</FormalSpec>
-<ReturnType>Sample.LoggingProxy</ReturnType>
+<FormalSpec>className:%String</FormalSpec>
+<ReturnType>Sample.RemoteProxy.Object</ReturnType>
 <Implementation><![CDATA[
-    #dim wrapper = ..%New()
-    set wrapper.OpenedObject = $classmethod(className, "%OpenId", %ID)
-    return wrapper
+    #dim pObject As %RegisteredObject = ""
+    set ..LastStatus = ..RemoteConnection().CreateInstance(className, .pObject)
+    set ..OpenedObject = ""
+    if $$$ISOK(..LastStatus) {
+        set ..OpenedObject = pObject
+    }
+    return $this
+]]></Implementation>
+</Method>
+
+<Method name="%OpenObjectId">
+<Description>
+open instance of a different class using given %ID</Description>
+<FormalSpec>className:%String,Id:%String</FormalSpec>
+<ReturnType>Sample.RemoteProxy.Object</ReturnType>
+<Implementation><![CDATA[
+    #dim pObject As %RegisteredObject = ""
+    set ..LastStatus = ..RemoteConnection().OpenObjectId(className, Id, .pObject)
+    set ..OpenedObject = ""
+    if $$$ISOK(..LastStatus) {
+        set ..OpenedObject = pObject
+    }
+    return $this
+]]></Implementation>
+</Method>
+
+<Method name="InvokeMethod">
+<Internal>1</Internal>
+<FormalSpec>MethodName:%String,args...</FormalSpec>
+<Implementation><![CDATA[
+    #dim returnValue = ""
+    #dim i as %Integer
+    #dim remoteConnection = ..RemoteConnection()
+    do remoteConnection.ResetArguments()
+    for i=1:1:$get(args) {
+        set ..LastStatus = remoteConnection.AddArgument(args(i), 0)
+    }
+    set ..LastStatus = remoteConnection.InvokeInstanceMethod(..OpenedObject, MethodName, .returnValue, $quit)
+    return returnValue
 ]]></Implementation>
 </Method>
 
@@ -35,30 +93,33 @@ open instance of a different class using given %ID</Description>
 log arguments and then dispatch dynamically method to the proxy object</Description>
 <FormalSpec>methodName:%String,args...</FormalSpec>
 <Implementation><![CDATA[
-    do ..LogArgs(methodName, args...)
-    return $method(..OpenedObject, methodName, args...)
+    //do ..LogArgs(methodName, args...)
+    return ..InvokeMethod(methodName, args...)
 ]]></Implementation>
 </Method>
 
-<Method name="%DispatchClassMethod">
-<Description>
-log arguments and then dispatch dynamically class-method to the proxy object</Description>
-<ClassMethod>1</ClassMethod>
-<FormalSpec>className:%String,methodName:%String,args...</FormalSpec>
-<Implementation><![CDATA[
-    do ..LogArgs(className_"::"_methodName, args...)
+<UDLText name="T">
+<Content><![CDATA[
+/* /// log arguments and then dispatch dynamically class-method to the proxy object
+ClassMethod %DispatchClassMethod(className As %String, methodName As %String, args...)
+{
+    //do ..LogArgs(className_"::"_methodName, args...)
     return $classmethod(className, methodName, args...) // FIXME - FRAMESTACK
-]]></Implementation>
-</Method>
+}
+*/
+]]></Content>
+</UDLText>
 
 <Method name="%DispatchGetProperty">
 <Description>
 log arguments and then dispatch dynamically property access to the proxy object</Description>
 <FormalSpec>Property:%String</FormalSpec>
 <Implementation><![CDATA[
-    #dim Value as %String = $property(..OpenedObject, Property)
-    do ..LogArgs(Property, Value)
-    return Value
+    //do ..LogArgs(Property, Value)
+
+    #dim value = ""
+    set ..LastStatus = ..RemoteConnection().GetProperty(..OpenedObject, Property, .value)
+    return value
 ]]></Implementation>
 </Method>
 
@@ -66,9 +127,11 @@ log arguments and then dispatch dynamically property access to the proxy object<
 <Description>
 log arguments and then dispatch dynamically property access to the proxy object</Description>
 <FormalSpec>Property,Value:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
-    do ..LogArgs(Property, Value)
-    set $property(..%OpenedObject, Property) = Value
+    //do ..LogArgs(Property, Value)
+    set ..LastStatus = ..RemoteConnection().SetProperty(..OpenedObject, Property, Value)
+    return ..LastStatus
 ]]></Implementation>
 </Method>
 </Class>

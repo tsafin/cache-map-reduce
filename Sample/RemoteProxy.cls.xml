@@ -35,24 +35,34 @@ sample of a remote proxy using %Net.RemoteConnection</Description>
 
 <Method name="%CreateInstance">
 <Description>
-open instance of a different class using given %ID</Description>
-<ClassMethod>1</ClassMethod>
-<FormalSpec>className:%String,%ID:%String</FormalSpec>
-<ReturnType>Sample.LoggingProxy</ReturnType>
+create new instance of a given class name</Description>
+<FormalSpec>className:%String</FormalSpec>
+<ReturnType>Sample.RemoteProxy.Object</ReturnType>
 <Implementation><![CDATA[
-    #dim wrapper = ..%New()
-    set wrapper.OpenedObject = $classmethod(className, "%OpenId", %ID)
-    return wrapper
+    #dim instanceProxy As Sample.RemoteProxy.Object = ##class(Sample.RemoteProxy.Object).%New($this)
+    return instanceProxy.%CreateInstance(className)
+]]></Implementation>
+</Method>
+
+<Method name="%OpenObjectId">
+<FormalSpec>className:%String,Id:%String</FormalSpec>
+<ReturnType>Sample.RemoteProxy.Object</ReturnType>
+<Implementation><![CDATA[
+    #dim instanceProxy As Sample.RemoteProxy.Object = ##class(Sample.RemoteProxy.Object).%New($this)
+    return instanceProxy.%OpenObjectId(className, Id)
 ]]></Implementation>
 </Method>
 
 <Method name="Debug">
 <ClassMethod>1</ClassMethod>
 <Implementation><![CDATA[
-    set w = ..%New()
-    do w.%Connect({"Namespace":"SAMPLES", "Username":"_SYSTEM", "Password":"SYS"})
+    set w = ##class(Sample.RemoteProxy).%New().%Connect({"Namespace":"SAMPLES", "Username":"_SYSTEM", "Password":"SYS"})
     //do w."Sample.Person::PrintPersons"(1)
-    w w."Cinema.Duration::LogicalToDisplay"(200)
+    write w."Cinema.Duration::LogicalToDisplay"(200)
+    set p = w.%OpenObjectId("Sample.Person",1)
+    write p.Name
+    write p.SSN
+    write p.Addition(1,2)
 ]]></Implementation>
 </Method>
 
