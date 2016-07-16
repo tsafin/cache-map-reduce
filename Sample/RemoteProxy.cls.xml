@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="Sample.RemoteProxy">
+<Description>
+sample of a remote proxy using %Net.RemoteConnection</Description>
+<Super>%RegisteredObject</Super>
+<TimeCreated>64112,53523.232695</TimeCreated>
+
+<Property name="ClassName">
+<Description>
+used for classmethod calls</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="Config">
+<Type>%Object</Type>
+<Internal>1</Internal>
+</Property>
+
+<Property name="RemoteConnection">
+<Type>%Net.RemoteConnection</Type>
+<Internal>1</Internal>
+</Property>
+
+<Property name="LastStatus">
+<Type>%Status</Type>
+<InitialExpression>$$$OK</InitialExpression>
+</Property>
+
+<Method name="%OnNew">
+<FormalSpec>initval</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    #dim retValue As %Status = $$$OK
+    
+    set ..RemoteConnection = ##class(%Net.RemoteConnection).%New()
+    
+    return retValue
+]]></Implementation>
+</Method>
+
+<Method name="%CreateInstance">
+<Description>
+open instance of a different class using given %ID</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>className:%String,%ID:%String</FormalSpec>
+<ReturnType>Sample.LoggingProxy</ReturnType>
+<Implementation><![CDATA[
+    #dim wrapper = ..%New()
+    set wrapper.OpenedObject = $classmethod(className, "%OpenId", %ID)
+    return wrapper
+]]></Implementation>
+</Method>
+
+<Method name="Debug">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+    set w = ..%New()
+    do w.%Connect({"Namespace":"SAMPLES", "Username":"_SYSTEM", "Password":"SYS"})
+]]></Implementation>
+</Method>
+
+<Method name="%Connect">
+<Description>
+pass the configuration object { "IP": IP, "Namespace" : Namespace, ... }</Description>
+<FormalSpec>Config:%Object</FormalSpec>
+<ReturnType>Sample.RemoteProxy</ReturnType>
+<Implementation><![CDATA[
+    #dim sIP As %String = Config.$get("IP")
+    #dim sNamespace As %String = Config.$get("Namespace")
+    #dim sPort As %String = Config.$get("Port")
+    #dim sUsername As %String = Config.$get("Username")
+    #dim sPassword As %String = Config.$get("Password")
+    #dim sClientIP As %String = Config.$get("ClientIP")
+    #dim sClientPort As %String = Config.$get("ClientPort")
+    
+    if sIP = "" {
+        set sIP = "127.0.0.1"
+    }
+    if sPort = "" {
+        set sPort = ^%SYS("SSPort")
+    }
+    set ..LastStatus = ..RemoteConnection.Connect(sIP, sNamespace, sPort, 
+                                                  sUsername, sPassword, 
+                                                  sClientIP, sClientPort)
+    
+    return $this
+]]></Implementation>
+</Method>
+
+<Method name="ApparentlyClassName">
+<Internal>1</Internal>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>CompoundName:%String,*ClassName:%String,*MethodName:%String</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+    #dim returnValue As %Boolean = 0
+    
+    if $match(CompoundName, "::") {
+        set ClassName = $piece(CompoundName, "::", 1)
+        set MethodName = $piece(CompoundName, "::", 2, *)
+
+        return 1
+    } elseif $match(CompoundName, "'") {
+        set ClassName = $piece(CompoundName, "'", 1)
+        set MethodName = $piece(CompoundName, "'", 2, *)
+
+        return 1
+    }
+
+    return 0
+]]></Implementation>
+</Method>
+
+<Method name="ClassName">
+<FormalSpec>ClassName:%String</FormalSpec>
+<ReturnType>Sample.RemoteProxy</ReturnType>
+<Implementation><![CDATA[
+    set ..ClassName = ClassName
+    return $this
+]]></Implementation>
+</Method>
+
+<Method name="%DispatchMethod">
+<Description>
+log arguments and then dispatch dynamically method to the proxy object</Description>
+<FormalSpec>methodName:%String,args...</FormalSpec>
+<Implementation><![CDATA[
+    //do ..LogArgs(methodName, args...)
+    #dim className as %String = ""
+    
+    if ..ApparentlyClassName(methodName, .className, .methodName) {
+        return ..InvokeClassMethod(className, methodName, args...)
+    }
+    return $method(..OpenedObject, methodName, args...) // FIXME - no way to get here
+]]></Implementation>
+</Method>
+
+<Method name="InvokeClassMethod">
+<FormalSpec>ClassName:%String,MethodName:%String,args...</FormalSpec>
+<Implementation><![CDATA[
+    #dim returnValue = ""
+    do ..RemoteConnection.InvokeClassMethod(ClassName, MethodName, .returnValue, $quit)
+    return returnValue
+]]></Implementation>
+</Method>
+
+<Method name="%DispatchGetProperty">
+<Description>
+%DispatchClassMethod is of no value, because we do not have a plase
+to store remote connection handler
+%DispatchGetProperty should be ready to provide access to class parameters</Description>
+<FormalSpec>Property:%String</FormalSpec>
+<Implementation><![CDATA[
+    #dim Value as %String = $property(..OpenedObject, Property)
+    //do ..LogArgs(Property, Value)
+    return Value
+]]></Implementation>
+</Method>
+
+<Method name="%DispatchSetProperty">
+<Description>
+log arguments and then dispatch dynamically property access to the proxy object</Description>
+<FormalSpec>Property,Value:%String</FormalSpec>
+<Implementation><![CDATA[
+    //do ..LogArgs(Property, Value)
+    set $property(..%OpenedObject, Property) = Value
+]]></Implementation>
+</Method>
+</Class>
+</Export>

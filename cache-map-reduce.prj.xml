@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2016-07-06 18:03:27.160665" Target="##class(MR.Sample.TestRemoteConnection).TestRemoteWorker()" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2016-07-17 01:11:23.647063" Target="##class(Sample.RemoteProxy).Debug()" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Executer" type="CLS"></ProjectItem>
@@ -29,9 +29,14 @@
     <ProjectItem name="MR.Sample.AgeAverage.Person" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.AgeAverage.AppGenericWorkers" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Sample.AgeAverage.AppRemoteWorkers" type="CLS"></ProjectItem>
+    <ProjectItem name="compareArray.MAC" type="MAC"></ProjectItem>
+    <ProjectItem name="Sample.LoggingProxy" type="CLS"></ProjectItem>
+    <ProjectItem name="Sample.RemoteProxy" type="CLS"></ProjectItem>
+    <ProjectItem name="Sample.RemoteProxy.Object" type="CLS"></ProjectItem>
   </Items>
   <BreakPoints>
     <BreakPoint Routine="MR.Executer.RemoteWorker.CLS" Offset="%OnNew+1"></BreakPoint>
+    <BreakPoint Routine="Sample.RemoteProxy.CLS" Offset="Debug+1"></BreakPoint>
     <BreakPoint Routine="MR.Sample.TestRemoteConnection.CLS" Offset="TestRemoteWorker+1"></BreakPoint>
     <BreakPoint Routine="MR.TypeConverter.MAC" Offset="19"></BreakPoint>
   </BreakPoints>

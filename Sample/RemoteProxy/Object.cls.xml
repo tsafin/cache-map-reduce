@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="Sample.RemoteProxy.Object">
+<Description>
+sample of a remote proxy using %Net.RemoteConnection</Description>
+<Super>%RegisteredObject</Super>
+<TimeCreated>64115,83996.532254</TimeCreated>
+
+<Property name="OpenedObject">
+<Description>
+keep openedobject for the proxy access later</Description>
+<Type>%RegisteredObject</Type>
+</Property>
+
+<Property name="Owner">
+<Type>Sample.RemoteProxy</Type>
+<Internal>1</Internal>
+</Property>
+
+<Method name="%CreateInstance">
+<Description>
+open instance of a different class using given %ID</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>className:%String,%ID:%String</FormalSpec>
+<ReturnType>Sample.LoggingProxy</ReturnType>
+<Implementation><![CDATA[
+    #dim wrapper = ..%New()
+    set wrapper.OpenedObject = $classmethod(className, "%OpenId", %ID)
+    return wrapper
+]]></Implementation>
+</Method>
+
+<Method name="%DispatchMethod">
+<Description>
+log arguments and then dispatch dynamically method to the proxy object</Description>
+<FormalSpec>methodName:%String,args...</FormalSpec>
+<Implementation><![CDATA[
+    do ..LogArgs(methodName, args...)
+    return $method(..OpenedObject, methodName, args...)
+]]></Implementation>
+</Method>
+
+<Method name="%DispatchClassMethod">
+<Description>
+log arguments and then dispatch dynamically class-method to the proxy object</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>className:%String,methodName:%String,args...</FormalSpec>
+<Implementation><![CDATA[
+    do ..LogArgs(className_"::"_methodName, args...)
+    return $classmethod(className, methodName, args...) // FIXME - FRAMESTACK
+]]></Implementation>
+</Method>
+
+<Method name="%DispatchGetProperty">
+<Description>
+log arguments and then dispatch dynamically property access to the proxy object</Description>
+<FormalSpec>Property:%String</FormalSpec>
+<Implementation><![CDATA[
+    #dim Value as %String = $property(..OpenedObject, Property)
+    do ..LogArgs(Property, Value)
+    return Value
+]]></Implementation>
+</Method>
+
+<Method name="%DispatchSetProperty">
+<Description>
+log arguments and then dispatch dynamically property access to the proxy object</Description>
+<FormalSpec>Property,Value:%String</FormalSpec>
+<Implementation><![CDATA[
+    do ..LogArgs(Property, Value)
+    set $property(..%OpenedObject, Property) = Value
+]]></Implementation>
+</Method>
+</Class>
+</Export>

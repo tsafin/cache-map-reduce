@@ -1,3 +1,4 @@
 /MR/TypeConverter.mac
 MR.pkg
+Sample.pkg
 cache-map-reduce.prj
