@@ -39,9 +39,9 @@ and arguments we were called in</Description>
 <ClassMethod>1</ClassMethod>
 <FormalSpec>prefix:%String,args...</FormalSpec>
 <Implementation><![CDATA[
-    #dim S as %String = $get(prefix) _ ": "
+    #dim S as %String = $get(prefix) _ ": " _ $get(args(1))
     #dim i as %Integer
-    for i=1:1:$get(args) {
+    for i=2:1:$get(args) {
         set S = S_","_args(i)
     }
     do ..Log(S)
@@ -99,7 +99,7 @@ log arguments and then dispatch dynamically property access to the proxy object<
 <FormalSpec>Property,Value:%String</FormalSpec>
 <Implementation><![CDATA[
     do ..LogArgs(Property, Value)
-    set $property(..%OpenedObject, Property) = Value
+    set $property(..OpenedObject, Property) = Value
 ]]></Implementation>
 </Method>
 </Class>
