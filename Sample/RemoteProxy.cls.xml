@@ -72,13 +72,13 @@ pass the configuration object { "IP": IP, "Namespace" : Namespace, ... }</Descri
 <FormalSpec>Config:%Object</FormalSpec>
 <ReturnType>Sample.RemoteProxy</ReturnType>
 <Implementation><![CDATA[
-    #dim sIP As %String = Config.$get("IP")
-    #dim sNamespace As %String = Config.$get("Namespace")
-    #dim sPort As %String = Config.$get("Port")
-    #dim sUsername As %String = Config.$get("Username")
-    #dim sPassword As %String = Config.$get("Password")
-    #dim sClientIP As %String = Config.$get("ClientIP")
-    #dim sClientPort As %String = Config.$get("ClientPort")
+    #dim sIP As %String = Config.IP
+    #dim sNamespace As %String = Config.Namespace
+    #dim sPort As %String = Config.Port
+    #dim sUsername As %String = Config.Username
+    #dim sPassword As %String = Config.Password
+    #dim sClientIP As %String = Config.ClientIP
+    #dim sClientPort As %String = Config.ClientPort
     
     if sIP = "" {
         set sIP = "127.0.0.1"
