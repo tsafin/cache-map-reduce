@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="Sample.SimplePerson">
+<Super>%Persistent,%Populate</Super>
+<TimeCreated>64117,55407.005491</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="Age">
+<Type>%Integer</Type>
+<Parameter name="MAXVAL" value="100"/>
+<Parameter name="MINVAL" value="1"/>
+</Property>
+
+<Property name="Contacts">
+<Type>%Integer</Type>
+<Parameter name="MAXVAL" value="40"/>
+<Parameter name="MINVAL" value="0"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Sample.SimplePersonD</DataLocation>
+<DefaultData>SimplePersonDefaultData</DefaultData>
+<IdLocation>^Sample.SimplePersonD</IdLocation>
+<IndexLocation>^Sample.SimplePersonI</IndexLocation>
+<StreamLocation>^Sample.SimplePersonS</StreamLocation>
+<ExtentSize>1000</ExtentSize>
+<Data name="SimplePersonDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Age</Value>
+</Value>
+<Value name="4">
+<Value>Contacts</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>0.1000%</Selectivity>
+<OutlierSelectivity>.992632:</OutlierSelectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>2.86</AverageFieldSize>
+</Property>
+<Property name="Age">
+<Selectivity>1.2399%</Selectivity>
+<AverageFieldSize>1.86</AverageFieldSize>
+</Property>
+<Property name="Contacts">
+<Selectivity>2.6300%</Selectivity>
+<AverageFieldSize>1.74</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>0.1000%</Selectivity>
+<AverageFieldSize>15.87</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-20</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+</Export>
