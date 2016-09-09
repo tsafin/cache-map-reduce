@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Project name="cache-map-reduce" LastModified="2016-07-18 15:24:39.665276" Target="##class(Sample.RemoteProxy).Debug()" TargetType="0">
+<Project name="cache-map-reduce" LastModified="2016-09-09 14:07:35.98101" Target="##class(Sample.RemoteProxy).Debug()" TargetType="0">
   <Items>
     <ProjectItem name="MR.Base.Emitter" type="CLS"></ProjectItem>
     <ProjectItem name="MR.Base.Executer" type="CLS"></ProjectItem>
@@ -32,7 +32,6 @@
     <ProjectItem name="Sample.LoggingProxy" type="CLS"></ProjectItem>
     <ProjectItem name="Sample.RemoteProxy" type="CLS"></ProjectItem>
     <ProjectItem name="Sample.RemoteProxy.Object" type="CLS"></ProjectItem>
-    <ProjectItem name="compareArray.MAC" type="MAC"></ProjectItem>
     <ProjectItem name="Sample.SimplePerson" type="CLS"></ProjectItem>
   </Items>
   <BreakPoints>
